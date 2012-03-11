@@ -31,12 +31,12 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
-import org.agilespain.kitaos.R;
 import com.google.android.apps.iosched.provider.ScheduleContract.Blocks;
 import com.google.android.apps.iosched.ui.widget.BlockView;
 import com.google.android.apps.iosched.ui.widget.BlocksLayout;
 import com.google.android.apps.iosched.util.ParserUtils;
 import com.google.android.apps.iosched.util.UIUtils;
+import org.agilespain.kitaos.app.KitaosIntent;
 
 import java.util.HashMap;
 
@@ -65,7 +65,7 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
 
     private static final int DISABLED_BLOCK_ALPHA = 160;
 
-    private static final HashMap<String, Integer> sTypeColumnMap = buildTypeColumnMap();
+    // private static final HashMap<String, Integer> sTypeColumnMap = buildTypeColumnMap();
 
     private static HashMap<String, Integer> buildTypeColumnMap() {
         final HashMap<String, Integer> map =  new HashMap<String,Integer>();
@@ -90,6 +90,8 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
         mBlocks.setDrawingCacheEnabled(true);
         mBlocks.setAlwaysDrawnWithCacheEnabled(true);
 
+        Intent intent = new Intent(KitaosIntent.ACTION_SYNC);
+        startService(intent);
     }
 
     @Override
@@ -98,7 +100,7 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
 
         // Since we build our views manually instead of using an adapter, we
         // need to manually requery every time launched.
-        final Uri blocksUri = getIntent().getData();
+        //final Uri blocksUri = getIntent().getData();
 //        mHandler.startQuery(blocksUri, BlocksQuery.PROJECTION, Blocks.DEFAULT_SORT);
 
         // Start listening for time updates to adjust "now" bar. TIME_TICK is

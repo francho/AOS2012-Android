@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.agilespain.kitaos"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          android:versionCode="1"
+          android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="7" />
+    <uses-sdk android:minSdkVersion="7"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application android:icon="@drawable/icon" android:label="@string/app_name">
 
         <activity android:name=".BlocksActivity">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--&lt;!&ndash; TODO: remove default? &ndash;&gt;-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.TAB" />-->
-                <!--&lt;!&ndash;                 <data android:mimeType="vnd.android.cursor.dir/vnd.iosched.block" /> &ndash;&gt;-->
+            <!--<action android:name="android.intent.action.VIEW" />-->
+            <!--&lt;!&ndash; TODO: remove default? &ndash;&gt;-->
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--<category android:name="android.intent.category.TAB" />-->
+            <!--&lt;!&ndash;                 <data android:mimeType="vnd.android.cursor.dir/vnd.iosched.block" /> &ndash;&gt;-->
             <!--</intent-filter>-->
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <provider android:name=".provider.KitaosProvider" android:authorities="org.agilespain.kitaos" />
+        <service android:name=".service.SyncService">
+            <intent-filter>
+                <action android:name="kitaos.intent.action.sync"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+
+        <provider android:name=".provider.KitaosProvider" android:authorities="org.agilespain.kitaos"/>
 
     </application>
 </manifest>
