@@ -123,7 +123,8 @@ public class TimeRulerView extends View {
 
         final FontMetricsInt metrics = labelPaint.getFontMetricsInt();
         final int labelHeight = Math.abs(metrics.ascent);
-        final int labelOffset = labelHeight + ((hourHeight - labelHeight) / 2);
+        //final int labelOffset = labelHeight + ((hourHeight - labelHeight) / 2);
+        final int labelOffset = labelHeight + ((hourHeight - labelHeight) );
 
         final int right = getRight();
 

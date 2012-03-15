@@ -38,7 +38,7 @@
             iosched:labelPaddingLeft="5dip"
             iosched:labelColor="#000000"
             iosched:dividerColor="#d9d9d9"
-            iosched:startHour="7"
+            iosched:startHour="9"
             iosched:endHour="23" />
         <View
             android:id="@id/blocks_now"

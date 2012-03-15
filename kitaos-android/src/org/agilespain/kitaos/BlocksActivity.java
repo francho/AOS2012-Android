@@ -21,31 +21,38 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Rect;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 import com.google.android.apps.iosched.provider.ScheduleContract.Blocks;
-import com.google.android.apps.iosched.ui.widget.BlockView;
 import com.google.android.apps.iosched.ui.widget.BlocksLayout;
 import com.google.android.apps.iosched.util.ParserUtils;
 import com.google.android.apps.iosched.util.UIUtils;
 import org.agilespain.kitaos.app.KitaosIntent;
+import org.agilespain.kitaos.provider.KitaosContract.Talks;
+import org.agilespain.kitaos.widget.PostitView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * {@link android.app.Activity} that displays a high-level view of a single day of
  * {@link Blocks} across the conference. Shows them lined up against a vertical
  * ruler of times across the day.
  */
-public class BlocksActivity extends Activity implements  View.OnClickListener {
+public class BlocksActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "BlocksActivity";
 
     // TODO: these layouts and views are structured pretty weird, ask someone to
@@ -63,12 +70,36 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
     private long mTimeStart = -1;
     private long mTimeEnd = -1;
 
-    private static final int DISABLED_BLOCK_ALPHA = 160;
+    private static final int DISABLED_BLOCK_ALPHA = 255;
+    private ContentObserver mObserver = new BlocksContentObserver();
+
+    class BlocksContentObserver extends  ContentObserver {
+        public BlocksContentObserver() {
+            super(null);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            mHandler.removeMessages(MSG_UPDATE);
+            mHandler.sendEmptyMessageDelayed(MSG_UPDATE, 300);
+        }
+    }
+
+    public static final int MSG_UPDATE = 99;
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what== MSG_UPDATE) {
+                updateTalks();
+            }
+        }
+    };
 
     // private static final HashMap<String, Integer> sTypeColumnMap = buildTypeColumnMap();
 
     private static HashMap<String, Integer> buildTypeColumnMap() {
-        final HashMap<String, Integer> map =  new HashMap<String,Integer>();
+        final HashMap<String, Integer> map = new HashMap<String, Integer>();
         map.put(ParserUtils.BLOCK_TYPE_FOOD, 0);
         map.put(ParserUtils.BLOCK_TYPE_SESSION, 1);
         map.put(ParserUtils.BLOCK_TYPE_OFFICE_HOURS, 2);
@@ -90,8 +121,68 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
         mBlocks.setDrawingCacheEnabled(true);
         mBlocks.setAlwaysDrawnWithCacheEnabled(true);
 
+        getContentResolver().registerContentObserver(Talks.uri(), true, mObserver);
+
         Intent intent = new Intent(KitaosIntent.ACTION_SYNC);
         startService(intent);
+    }
+
+    protected void updateTalks() {
+        mBlocks.removeAllBlocks();
+
+        String[] projection = {
+                Talks._ID,
+                Talks.TITLE,
+                Talks.DATE,
+                Talks.DURATION,
+                Talks.ROOM
+        };
+        Cursor cursor = getContentResolver().query(Talks.uri(), projection, null, null, null);
+        try {
+            ArrayList<String> salas = new ArrayList<String>();
+            while (cursor.moveToNext()) {
+                String blockId = cursor.getString(0);
+                String title = cursor.getString(1);
+                long start = getStartTime(cursor.getString(2));
+                long end = start + cursor.getInt(3) * 60 * 60 * 1000 ;
+                String sala = cursor.getString(4);
+                
+                int column = salas.indexOf(sala);
+                
+                Log.d("BLOCKS",salas.toString());
+                Log.d("BLOCKS", "sala:"+sala+"column:" + column + " start:" + start + " end:" + end + " " + title);
+                if(column < 0) {
+                    salas.add(sala);
+                    column = salas.indexOf(sala);
+                }
+                
+                boolean containsStarred=false;
+
+                Log.d("BLOCKS", "column:" + column + " start:" + start + " end:" + end + " " + title);
+                
+                final PostitView postit = new PostitView(this, blockId, title, start, end, containsStarred, column);
+                mBlocks.addBlock(postit);
+            }
+        } finally {
+            cursor.close();
+        }
+
+    }
+
+    private long getStartTime(String dateString) {
+        long timestamp = -1;
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        try {
+            Date date = df.parse(dateString) ;
+            timestamp = date.getTime() * 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("BLOCKS",dateString + " ts: " + timestamp);
+
+        return timestamp;
     }
 
     @Override
@@ -111,11 +202,10 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         registerReceiver(mReceiver, filter, null, new Handler());
 
-        
-        onQueryComplete(0,null,null);
+        // onQueryComplete(0,null,null);
         mNowView.post(new Runnable() {
             public void run() {
-                updateNowView(true); 
+                updateNowView(true);
             }
         });
     }
@@ -126,60 +216,58 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
         unregisterReceiver(mReceiver);
     }
 
-    /** {@inheritDoc} */
-    public void onQueryComplete(int token, Object cookie, Cursor cursor) {
-        // Clear out any existing sessions before inserting again
-    	Log.d("BLOCKS", "onQueryComplete");
-        mBlocks.removeAllBlocks();
-
+//    /** {@inheritDoc} */
+//    public void onQueryComplete(int token, Object cookie, Cursor cursor) {
+//        // Clear out any existing sessions before inserting again
+//    	Log.d("BLOCKS", "onQueryComplete");
+//        mBlocks.removeAllBlocks();
+//
 //        try {
 //            while (cursor.moveToNext()) {
-        	for(int x=0; x<5; x++) {
-                final String type = "Android";
-//                final String type = cursor.getString(BlocksQuery.BLOCK_TYPE);
+//        	//for(int x=0; x<5; x++) {
+//                final String type = "Android";
+////                final String type = cursor.getString(BlocksQuery.BLOCK_TYPE);
 //                final Integer column = sTypeColumnMap.get(type);
-                final Integer column = x % 4;
-                
-                // TODO: place random blocks at bottom of entire layout
-                if (column == null) continue;
-
-                final String blockId = ""+x;
-                final String title = "Title "+x;
-
-
-
-                final long start = ParserUtils.parseTime("2012-06-23T"+(x+10)+":00:00.000-07:00");
-                final long end = ParserUtils.parseTime("2012-06-23T"+(x+12)+":00:00.000-07:00");
-                final boolean containsStarred = 1 != 0;
-//                final String blockId = cursor.getString(BlocksQuery.BLOCK_ID);
-//                final String title = cursor.getString(BlocksQuery.BLOCK_TITLE);
-//                final long start = cursor.getLong(BlocksQuery.BLOCK_START);
-//                final long end = cursor.getLong(BlocksQuery.BLOCK_END);
-//                final boolean containsStarred = cursor.getInt(BlocksQuery.CONTAINS_STARRED) != 0;
-
-                final BlockView blockView = new BlockView(this, blockId, title, start, end,
-                        containsStarred, column);
-
-//                final int sessionsCount = cursor.getInt(BlocksQuery.SESSIONS_COUNT);
-                final int sessionsCount = 0;
-                if (sessionsCount > 0) {
-                    blockView.setOnClickListener(this);
-                } else {
-                    blockView.setFocusable(false);
-                    blockView.setEnabled(false);
-                    LayerDrawable buttonDrawable = (LayerDrawable) blockView.getBackground();
-                    buttonDrawable.getDrawable(0).setAlpha(DISABLED_BLOCK_ALPHA);
-                    buttonDrawable.getDrawable(2).setAlpha(DISABLED_BLOCK_ALPHA);
-                }
-                
-                Log.d("BLOCK", "adding "+x);
-
-                mBlocks.addBlock(blockView);
-            }
+//                // final Integer column = x % 4;
+//
+//                // TODO: place random blocks at bottom of entire layout
+//                if (column == null) continue;
+//
+//                final String blockId = ""+x;
+//                final String title = "Esto es un Title largo "+x;
+//
+//
+//
+//                final long start = ParserUtils.parseTime("2012-06-23T"+(x+10)+":00:00.000-07:00");
+//                final long end = ParserUtils.parseTime("2012-06-23T"+(x+12)+":00:00.000-07:00");
+//                final boolean containsStarred = 1 != 0;
+////                final String blockId = cursor.getString(BlocksQuery.BLOCK_ID);
+////                final String title = cursor.getString(BlocksQuery.BLOCK_TITLE);
+////                final long start = cursor.getLong(BlocksQuery.BLOCK_START);
+////                final long end = cursor.getLong(BlocksQuery.BLOCK_END);
+////                final boolean containsStarred = cursor.getInt(BlocksQuery.CONTAINS_STARRED) != 0;
+//
+//                final PostitView blockView = new PostitView(this, blockId, title, start, end,
+//                        containsStarred, column);
+//
+////                final int sessionsCount = cursor.getInt(BlocksQuery.SESSIONS_COUNT);
+//                final int sessionsCount = 0;
+//                if (sessionsCount > 0) {
+//                    blockView.setOnClickListener(this);
+//                } else {
+//                    blockView.setFocusable(false);
+//                    blockView.setEnabled(false);
+//                    LayerDrawable buttonDrawable = (LayerDrawable) blockView.getBackground();
+//                    buttonDrawable.getDrawable(0).setAlpha(DISABLED_BLOCK_ALPHA);
+//                    buttonDrawable.getDrawable(2).setAlpha(DISABLED_BLOCK_ALPHA);
+//                }
+//
+//                mBlocks.addBlock(blockView);
+//            }
 //        } finally {
 //            cursor.close();
 //        }
-    }
+//    }
 
     public void onHomeClick(View v) {
         UIUtils.goHome(this);
@@ -192,10 +280,12 @@ public class BlocksActivity extends Activity implements  View.OnClickListener {
         UIUtils.goSearch(this);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void onClick(View view) {
-        if (view instanceof BlockView) {
-            final String blockId = ((BlockView) view).getBlockId();
+        if (view instanceof PostitView) {
+            final String blockId = ((PostitView) view).getBlockId();
             final Uri sessionsUri = Blocks.buildSessionsUri(blockId);
             startActivity(new Intent(Intent.ACTION_VIEW, sessionsUri));
         }
