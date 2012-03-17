@@ -30,6 +30,8 @@ import android.view.View;
 import com.google.android.apps.iosched.util.UIUtils;
 import org.agilespain.kitaos.R;
 
+import java.util.TimeZone;
+
 /**
  * Custom view that draws a vertical time "ruler" representing the chronological
  * progression of a single day. Usually shown along with {@link BlockView}
@@ -84,7 +86,7 @@ public class TimeRulerView extends View {
      * milliseconds since epoch).
      */
     public int getTimeVerticalOffset(long timeMillis) {
-        Time time = new Time(UIUtils.CONFERENCE_TIME_ZONE.getID());
+        Time time = new Time(TimeZone.getDefault().getID());
         time.set(timeMillis);
 
         final int minutes = ((time.hour - mStartHour) * 60) + time.minute;

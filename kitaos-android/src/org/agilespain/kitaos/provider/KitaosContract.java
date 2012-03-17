@@ -44,8 +44,8 @@ public class KitaosContract {
         }
 
         public static final String TITLE = "title";
-        public static final String DATE = "date";
-        public static final String DURATION = "duration";
+        public static final String START_DATE = "start_date";
+        public static final String END_DATE = "end_date";
         public static final String ROOM = "room";
         public static final String SPEAKER = "speaker";
 

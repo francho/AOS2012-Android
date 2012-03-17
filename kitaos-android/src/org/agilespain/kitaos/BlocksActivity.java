@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.BaseColumns;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
@@ -133,8 +134,8 @@ public class BlocksActivity extends Activity implements View.OnClickListener {
         String[] projection = {
                 Talks._ID,
                 Talks.TITLE,
-                Talks.DATE,
-                Talks.DURATION,
+                Talks.START_DATE,
+                Talks.END_DATE,
                 Talks.ROOM
         };
         Cursor cursor = getContentResolver().query(Talks.uri(), projection, null, null, null);
@@ -143,20 +144,20 @@ public class BlocksActivity extends Activity implements View.OnClickListener {
             while (cursor.moveToNext()) {
                 String blockId = cursor.getString(0);
                 String title = cursor.getString(1);
-                long start = getStartTime(cursor.getString(2));
-                long end = start + cursor.getInt(3) * 60 * 60 * 1000 ;
+                long start = cursor.getLong(2);
+                long end = cursor.getLong(3);
                 String sala = cursor.getString(4);
                 
                 int column = salas.indexOf(sala);
                 
                 Log.d("BLOCKS",salas.toString());
-                Log.d("BLOCKS", "sala:"+sala+"column:" + column + " start:" + start + " end:" + end + " " + title);
+                Log.d("BLOCKS", "sala:"+sala+" column:" + column + " start:" + DateFormat.format("yyyy-MM-dd h:mm", new Date(start)) + " end:" + end + " " + title);
                 if(column < 0) {
                     salas.add(sala);
                     column = salas.indexOf(sala);
                 }
                 
-                boolean containsStarred=false;
+                boolean containsStarred=true;
 
                 Log.d("BLOCKS", "column:" + column + " start:" + start + " end:" + end + " " + title);
                 
@@ -169,21 +170,7 @@ public class BlocksActivity extends Activity implements View.OnClickListener {
 
     }
 
-    private long getStartTime(String dateString) {
-        long timestamp = -1;
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-        try {
-            Date date = df.parse(dateString) ;
-            timestamp = date.getTime() * 1000;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Log.d("BLOCKS",dateString + " ts: " + timestamp);
-
-        return timestamp;
-    }
+   
 
     @Override
     protected void onResume() {

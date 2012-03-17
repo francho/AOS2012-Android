@@ -57,8 +57,8 @@ public class KitaosProviderTest extends ProviderTestCase2<KitaosProvider> {
 
         values.put(KitaosContract.Talks._ID, id);
         values.put(KitaosContract.Talks.TITLE, title);
-        values.put(KitaosContract.Talks.DATE, date);
-        values.put(KitaosContract.Talks.DURATION, duration);
+        values.put(KitaosContract.Talks.START_DATE, date);
+        values.put(KitaosContract.Talks.END_DATE, duration);
         values.put(KitaosContract.Talks.ROOM, room);
         values.put(KitaosContract.Talks.SPEAKER, speaker);
 
@@ -67,8 +67,8 @@ public class KitaosProviderTest extends ProviderTestCase2<KitaosProvider> {
         String[] projection = {
                 KitaosContract.Talks._ID,
                 KitaosContract.Talks.TITLE,
-                KitaosContract.Talks.DATE,
-                KitaosContract.Talks.DURATION,
+                KitaosContract.Talks.START_DATE,
+                KitaosContract.Talks.END_DATE,
                 KitaosContract.Talks.ROOM,
                 KitaosContract.Talks.SPEAKER,
         };
