@@ -126,6 +126,7 @@ public class BlocksActivity extends Activity implements View.OnClickListener {
 
         Intent intent = new Intent(KitaosIntent.ACTION_SYNC);
         startService(intent);
+        updateTalks();
     }
 
     protected void updateTalks() {
@@ -157,7 +158,7 @@ public class BlocksActivity extends Activity implements View.OnClickListener {
                     column = salas.indexOf(sala);
                 }
                 
-                boolean containsStarred=true;
+                boolean containsStarred=Math.random() * 10 < 1;
 
                 Log.d("BLOCKS", "column:" + column + " start:" + start + " end:" + end + " " + title);
                 

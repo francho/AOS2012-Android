@@ -17,13 +17,20 @@
 package org.agilespain.kitaos.widget;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
-import android.widget.Button;
+import android.widget.TextView;
 import org.agilespain.kitaos.R;
+
+import java.io.IOException;
+import java.util.Random;
 
 /**
  * Custom view that represents a {@link com.google.android.apps.iosched.provider.ScheduleContract.Blocks#BLOCK_ID} instance, including its
@@ -31,15 +38,53 @@ import org.agilespain.kitaos.R;
  * {@link com.google.android.apps.iosched.ui.widget.BlocksLayout} to match up against a {@link com.google.android.apps.iosched.ui.widget.TimeRulerView} instance.
  */
 public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockView {
+
+    private float rotation = 3;
+
     public PostitView(Context context, String blockId, String title, long startTime,
                       long endTime, boolean containsStarred, int column) {
 
         super(context, blockId, title, startTime, endTime, containsStarred, column);
-        Typeface font = Typeface.createFromAsset(context.getAssets(), "ShadowsIntoLightTwo-Regular.ttf");
-        setTypeface(font);
-        
-        setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
 
-        setMaxLines(4);
+        setPostitBackground(containsStarred);
+        setTextColor(Color.BLACK);
+        setPostitTypeface();
+
+        Random random = new Random();
+
+        rotation = random.nextInt(10) * (random.nextBoolean()?-1:1);
+        
+        setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL | Gravity.FILL_VERTICAL);
+
+        setMaxLines(3);
+        setEllipsize(TextUtils.TruncateAt.END);
     }
+
+    @Override
+    protected void onDraw(Canvas c) {
+        c.rotate(rotation);
+        super.onDraw(c);
+    }
+
+    private void setPostitTypeface() {
+        String ttf = "fonts/ShadowsIntoLightTwo-Regular.ttf";
+        //ttf = "fonts/IndieFlower.ttf";
+
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), ttf);
+        setTypeface(font);
+    }
+
+    private void setPostitBackground(boolean containsStarred) {
+        LayerDrawable bg = (LayerDrawable)
+                getContext().getResources().getDrawable(R.drawable.btn_block);
+        int accentColor = (containsStarred) ? Color.rgb(255, 122, 144) : Color.YELLOW;
+        bg.getDrawable(0).setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
+        bg.getDrawable(1).setAlpha(255);
+
+        setBackgroundDrawable(bg);
+    }
+
+
+
+
 }

@@ -27,14 +27,14 @@
         android:layout_height="wrap_content"
         iosched:columns="4">
         <view
-            class="com.google.android.apps.iosched.ui.widget.TimeRulerView"
+            class="org.agilespain.kitaos.widget.KitaosTimeRulerView"
             android:id="@id/blocks_ruler"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             iosched:headerWidth="46dip"
             iosched:hourHeight="90dip"
             iosched:horizontalDivider="true"
-            iosched:labelTextSize="13sp"
+            iosched:labelTextSize="15sp"
             iosched:labelPaddingLeft="5dip"
             iosched:labelColor="#000000"
             iosched:dividerColor="#d9d9d9"

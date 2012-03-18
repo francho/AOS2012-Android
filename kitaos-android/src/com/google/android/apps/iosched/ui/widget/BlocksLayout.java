@@ -22,6 +22,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import org.agilespain.kitaos.R;
+import org.agilespain.kitaos.widget.KitaosTimeRulerView;
 
 /**
  * Custom layout that contains and organizes a {@link TimeRulerView} and several
@@ -31,7 +32,7 @@ import org.agilespain.kitaos.R;
 public class BlocksLayout extends ViewGroup {
     private int mColumns = 3;
 
-    private TimeRulerView mRulerView;
+    private KitaosTimeRulerView mRulerView;
     private View mNowView;
 
     public BlocksLayout(Context context) {
@@ -54,7 +55,7 @@ public class BlocksLayout extends ViewGroup {
     }
 
     private void ensureChildren() {
-        mRulerView = (TimeRulerView) findViewById(R.id.blocks_ruler);
+        mRulerView = (KitaosTimeRulerView) findViewById(R.id.blocks_ruler);
         mRulerView.setDrawingCacheEnabled(true);
         if (mRulerView == null) {
             throw new IllegalStateException("Must include a R.id.blocks_ruler view.");
@@ -101,7 +102,7 @@ public class BlocksLayout extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         ensureChildren();
 
-        final TimeRulerView rulerView = mRulerView;
+        final KitaosTimeRulerView rulerView = mRulerView;
         final int headerWidth = rulerView.getHeaderWidth();
         final int columnWidth = (getWidth() - headerWidth) / mColumns;
 
