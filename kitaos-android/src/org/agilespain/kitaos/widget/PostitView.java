@@ -35,7 +35,7 @@ import java.util.Random;
 /**
  * Custom view that represents a {@link com.google.android.apps.iosched.provider.ScheduleContract.Blocks#BLOCK_ID} instance, including its
  * title and time span that it occupies. Usually organized automatically by
- * {@link com.google.android.apps.iosched.ui.widget.BlocksLayout} to match up against a {@link com.google.android.apps.iosched.ui.widget.TimeRulerView} instance.
+ * {@link com.google.android.apps.iosched.ui.widget.BlocksLayout} to match up against a {@ link com.google.android.apps.iosched.ui.widget.TimeRulerView} instance.
  */
 public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockView {
 
@@ -52,11 +52,11 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
 
         Random random = new Random();
 
-        rotation = random.nextInt(10) * (random.nextBoolean()?-1:1);
+        rotation = random.nextInt(5) * (random.nextBoolean()?-1:1);
         
         setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL | Gravity.FILL_VERTICAL);
 
-        setMaxLines(3);
+        setMaxLines(2);
         setEllipsize(TextUtils.TruncateAt.END);
     }
 

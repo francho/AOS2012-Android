@@ -25,7 +25,7 @@ import org.agilespain.kitaos.R;
 import org.agilespain.kitaos.widget.KitaosTimeRulerView;
 
 /**
- * Custom layout that contains and organizes a {@link TimeRulerView} and several
+ * Custom layout that contains and organizes a {@ link TimeRulerView} and several
  * instances of {@link BlockView}. Also positions current "now" divider using
  * {@link R.id#blocks_now} view when applicable.
  */
@@ -70,7 +70,7 @@ public class BlocksLayout extends ViewGroup {
 
     /**
      * Remove any {@link BlockView} instances, leaving only
-     * {@link TimeRulerView} remaining.
+     * {@ link TimeRulerView} remaining.
      */
     public void removeAllBlocks() {
         ensureChildren();

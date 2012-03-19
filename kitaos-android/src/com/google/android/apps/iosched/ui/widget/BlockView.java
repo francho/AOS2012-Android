@@ -27,7 +27,7 @@ import org.agilespain.kitaos.R;
 /**
  * Custom view that represents a {@link Blocks#BLOCK_ID} instance, including its
  * title and time span that it occupies. Usually organized automatically by
- * {@link BlocksLayout} to match up against a {@link TimeRulerView} instance.
+ * {@link BlocksLayout} to match up against a {@ link TimeRulerView} instance.
  */
 public class BlockView extends Button {
     private final String mBlockId;

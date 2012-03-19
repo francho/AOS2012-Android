@@ -23,7 +23,7 @@
     <declare-styleable name="TimeRulerView">
         <attr name="headerWidth" format="dimension" />
         <attr name="hourHeight" format="dimension" />
-        <attr name="horizontalDivider" format="boolean" />
+        <attr name="bghorizontalDivider" format="boolean" />
         <attr name="labelTextSize" format="dimension" />
         <attr name="labelPaddingLeft" format="dimension" />
         <attr name="labelColor" format="color" />

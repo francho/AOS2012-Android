@@ -33,13 +33,14 @@
             android:layout_height="wrap_content"
             iosched:headerWidth="46dip"
             iosched:hourHeight="90dip"
-            iosched:horizontalDivider="true"
+            iosched:bghorizontalDivider="true"
             iosched:labelTextSize="15sp"
             iosched:labelPaddingLeft="5dip"
             iosched:labelColor="#000000"
             iosched:dividerColor="#d9d9d9"
             iosched:startHour="9"
             iosched:endHour="23" />
+        <!-- -->
         <View
             android:id="@id/blocks_now"
             android:background="@drawable/now_bar"

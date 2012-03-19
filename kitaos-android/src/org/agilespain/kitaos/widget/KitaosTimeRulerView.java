@@ -27,7 +27,6 @@ import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.AttributeSet;
 import android.view.View;
-import com.google.android.apps.iosched.ui.widget.TimeRulerView;
 import org.agilespain.kitaos.R;
 
 import java.util.TimeZone;
@@ -69,7 +68,7 @@ public class KitaosTimeRulerView extends View {
                 mHeaderWidth);
         mHourHeight = a
                 .getDimensionPixelSize(R.styleable.TimeRulerView_hourHeight, mHourHeight);
-        mHorizontalDivider = a.getBoolean(R.styleable.TimeRulerView_horizontalDivider,
+        mHorizontalDivider = a.getBoolean(R.styleable.TimeRulerView_bghorizontalDivider,
                 mHorizontalDivider);
         mLabelTextSize = a.getDimensionPixelSize(R.styleable.TimeRulerView_labelTextSize,
                 mLabelTextSize);
