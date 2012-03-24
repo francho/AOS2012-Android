@@ -10,13 +10,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * Parse the json and generate the sql sentences to save it into the db
  */
 public class TalksJsonHandler extends JsonHandler {
+
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
 	public TalksJsonHandler() {
 		super(KitaosContract.CONTENT_AUTHORITY);
@@ -67,9 +73,12 @@ public class TalksJsonHandler extends JsonHandler {
             builder.withValue(Talks.ROOM, curTalk.getJSONObject(TalksJson.ROOM).getString(TalksJson.NAME).trim());
             
             String date = curTalk.getString(TalksJson.DATE).trim() + " " + normalizeTime(curTalk.getString(TalksJson.HOUR)) ;
-            
-            builder.withValue(Talks.DATE, date);
-            builder.withValue(Talks.DURATION, curTalk.getString(TalksJson.DURATION).trim());
+
+            // Dates to millis
+            long millisStart = getMillis(date);
+            builder.withValue(Talks.START_DATE, millisStart);
+
+            builder.withValue(Talks.END_DATE, getEndMillis(millisStart, curTalk.getInt(TalksJson.DURATION)));
 
             // TODO
             // builder.withValue(Talks.SPEAKER, curTalk.getString(TalksJson.SPEAKER).trim());
@@ -77,6 +86,21 @@ public class TalksJsonHandler extends JsonHandler {
             batch.add(builder.build());
         }
         return batch;
+    }
+    
+    public long getMillis(String dateString) {
+        try {
+            Date date = df.parse(dateString);
+            return date.getTime() ;
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
+            return -1;
+        }
+    }
+
+    public long getEndMillis(long millisStart, int duration) {
+        return (duration * 60 * 60 * 1000) + millisStart;
     }
     
     private String normalizeTime(String time) {

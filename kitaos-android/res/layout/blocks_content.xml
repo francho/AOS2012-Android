@@ -27,19 +27,20 @@
         android:layout_height="wrap_content"
         iosched:columns="4">
         <view
-            class="com.google.android.apps.iosched.ui.widget.TimeRulerView"
+            class="org.agilespain.kitaos.widget.KitaosTimeRulerView"
             android:id="@id/blocks_ruler"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             iosched:headerWidth="46dip"
-            iosched:hourHeight="60dip"
-            iosched:horizontalDivider="true"
-            iosched:labelTextSize="13sp"
+            iosched:hourHeight="90dip"
+            iosched:bghorizontalDivider="true"
+            iosched:labelTextSize="15sp"
             iosched:labelPaddingLeft="5dip"
             iosched:labelColor="#000000"
             iosched:dividerColor="#d9d9d9"
-            iosched:startHour="7"
-            iosched:endHour="23" />
+            iosched:startHour="9"
+            iosched:endHour="21" />
+        <!-- -->
         <View
             android:id="@id/blocks_now"
             android:background="@drawable/now_bar"

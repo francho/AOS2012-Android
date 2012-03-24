@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.android.apps.iosched.ui.widget;
+package org.agilespain.kitaos.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,15 +27,16 @@ import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.AttributeSet;
 import android.view.View;
-import com.google.android.apps.iosched.util.UIUtils;
 import org.agilespain.kitaos.R;
+
+import java.util.TimeZone;
 
 /**
  * Custom view that draws a vertical time "ruler" representing the chronological
- * progression of a single day. Usually shown along with {@link BlockView}
+ * progression of a single day. Usually shown along with {@link com.google.android.apps.iosched.ui.widget.BlockView}
  * instances to give a spatial sense of time.
  */
-public class TimeRulerView extends View {
+public class KitaosTimeRulerView extends View {
 
     private int mHeaderWidth = 70;
     private int mHourHeight = 90;
@@ -46,16 +47,18 @@ public class TimeRulerView extends View {
     private int mDividerColor = Color.LTGRAY;
     private int mStartHour = 0;
     private int mEndHour = 23;
+    private Typeface mTypeface;
 
-    public TimeRulerView(Context context) {
+
+    public KitaosTimeRulerView(Context context) {
         this(context, null);
     }
 
-    public TimeRulerView(Context context, AttributeSet attrs) {
+    public KitaosTimeRulerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TimeRulerView(Context context, AttributeSet attrs, int defStyle) {
+    public KitaosTimeRulerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TimeRulerView,
@@ -65,7 +68,7 @@ public class TimeRulerView extends View {
                 mHeaderWidth);
         mHourHeight = a
                 .getDimensionPixelSize(R.styleable.TimeRulerView_hourHeight, mHourHeight);
-        mHorizontalDivider = a.getBoolean(R.styleable.TimeRulerView_horizontalDivider,
+        mHorizontalDivider = a.getBoolean(R.styleable.TimeRulerView_bghorizontalDivider,
                 mHorizontalDivider);
         mLabelTextSize = a.getDimensionPixelSize(R.styleable.TimeRulerView_labelTextSize,
                 mLabelTextSize);
@@ -76,6 +79,9 @@ public class TimeRulerView extends View {
         mStartHour = a.getInt(R.styleable.TimeRulerView_startHour, mStartHour);
         mEndHour = a.getInt(R.styleable.TimeRulerView_endHour, mEndHour);
 
+        mTypeface = TypefaceUtils.getTitleFont(getContext());
+
+
         a.recycle();
     }
 
@@ -84,7 +90,7 @@ public class TimeRulerView extends View {
      * milliseconds since epoch).
      */
     public int getTimeVerticalOffset(long timeMillis) {
-        Time time = new Time(UIUtils.CONFERENCE_TIME_ZONE.getID());
+        Time time = new Time(TimeZone.getDefault().getID());
         time.set(timeMillis);
 
         final int minutes = ((time.hour - mStartHour) * 60) + time.minute;
@@ -119,11 +125,13 @@ public class TimeRulerView extends View {
         labelPaint.setColor(mLabelColor);
         labelPaint.setTextSize(mLabelTextSize);
         labelPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        labelPaint.setTypeface(mTypeface);
         labelPaint.setAntiAlias(true);
 
         final FontMetricsInt metrics = labelPaint.getFontMetricsInt();
         final int labelHeight = Math.abs(metrics.ascent);
-        final int labelOffset = labelHeight + ((hourHeight - labelHeight) / 2);
+        //final int labelOffset = labelHeight + ((hourHeight - labelHeight) / 2);
+        final int labelOffset = labelHeight + ((hourHeight - labelHeight) );
 
         final int right = getRight();
 
@@ -140,16 +148,7 @@ public class TimeRulerView extends View {
             // TODO: localize these labels better, including handling
             // 24-hour mode when set in framework.
             final int hour = mStartHour + i;
-            String label;
-            if (hour == 0) {
-                label = "12am";
-            } else if (hour <= 11) {
-                label = hour + "am";
-            } else if (hour == 12) {
-                label = "12pm";
-            } else {
-                label = (hour - 12) + "pm";
-            }
+            String label = hour + ":00";
 
             final float labelWidth = labelPaint.measureText(label);
 
