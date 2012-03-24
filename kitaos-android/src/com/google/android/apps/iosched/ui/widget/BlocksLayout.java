@@ -22,16 +22,17 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import org.agilespain.kitaos.R;
+import org.agilespain.kitaos.widget.KitaosTimeRulerView;
 
 /**
- * Custom layout that contains and organizes a {@link TimeRulerView} and several
+ * Custom layout that contains and organizes a {@ link TimeRulerView} and several
  * instances of {@link BlockView}. Also positions current "now" divider using
  * {@link R.id#blocks_now} view when applicable.
  */
 public class BlocksLayout extends ViewGroup {
     private int mColumns = 3;
 
-    private TimeRulerView mRulerView;
+    private KitaosTimeRulerView mRulerView;
     private View mNowView;
 
     public BlocksLayout(Context context) {
@@ -54,7 +55,7 @@ public class BlocksLayout extends ViewGroup {
     }
 
     private void ensureChildren() {
-        mRulerView = (TimeRulerView) findViewById(R.id.blocks_ruler);
+        mRulerView = (KitaosTimeRulerView) findViewById(R.id.blocks_ruler);
         mRulerView.setDrawingCacheEnabled(true);
         if (mRulerView == null) {
             throw new IllegalStateException("Must include a R.id.blocks_ruler view.");
@@ -69,7 +70,7 @@ public class BlocksLayout extends ViewGroup {
 
     /**
      * Remove any {@link BlockView} instances, leaving only
-     * {@link TimeRulerView} remaining.
+     * {@ link TimeRulerView} remaining.
      */
     public void removeAllBlocks() {
         ensureChildren();
@@ -101,7 +102,7 @@ public class BlocksLayout extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         ensureChildren();
 
-        final TimeRulerView rulerView = mRulerView;
+        final KitaosTimeRulerView rulerView = mRulerView;
         final int headerWidth = rulerView.getHeaderWidth();
         final int columnWidth = (getWidth() - headerWidth) / mColumns;
 
@@ -112,14 +113,14 @@ public class BlocksLayout extends ViewGroup {
             final View child = getChildAt(i);
             if (child.getVisibility() == GONE) continue;
 
-            if (child instanceof BlockView) {
+           if (child instanceof BlockView) {
                 final BlockView blockView = (BlockView) child;
                 final int top = rulerView.getTimeVerticalOffset(blockView.getStartTime());
                 final int bottom = rulerView.getTimeVerticalOffset(blockView.getEndTime());
                 final int left = headerWidth + (blockView.getColumn() * columnWidth);
                 final int right = left + columnWidth;
                 child.layout(left, top, right, bottom);
-            }
+           }
         }
 
         // Align now view to match current time

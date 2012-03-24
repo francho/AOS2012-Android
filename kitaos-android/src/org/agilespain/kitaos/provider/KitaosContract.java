@@ -29,6 +29,7 @@ public class KitaosContract {
     public static final String CONTENT_AUTHORITY = "org.agilespain.kitaos";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     private static final String PATH_TALKS = "talks";
+    private static final String PATH_TALKS_HOURS = "talks_hours";
 
     // This class cannot be instantiated
     private KitaosContract() {
@@ -44,8 +45,8 @@ public class KitaosContract {
         }
 
         public static final String TITLE = "title";
-        public static final String DATE = "date";
-        public static final String DURATION = "duration";
+        public static final String START_DATE = "start_date";
+        public static final String END_DATE = "end_date";
         public static final String ROOM = "room";
         public static final String SPEAKER = "speaker";
 
@@ -63,6 +64,10 @@ public class KitaosContract {
 
         public static Uri uri() {
             return CONTENT_URI;
+        }
+        
+        public static Uri hoursUri() {
+            return BASE_CONTENT_URI.buildUpon().appendPath(PATH_TALKS_HOURS).build();
         }
     }
 }

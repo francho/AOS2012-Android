@@ -27,6 +27,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -40,6 +41,7 @@ public class KitaosProvider extends ContentProvider {
 
     private static final int TALKS = 1;
     private static final int TALKS_ID = 2;
+    private static final int TALKS_HOURS = 3;
 
     private static final UriMatcher sUriMatcher;
 
@@ -50,7 +52,9 @@ public class KitaosProvider extends ContentProvider {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks/#", TALKS_ID);
+        sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks_hours", TALKS_HOURS);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks", TALKS);
+
     }
 
 
@@ -72,16 +76,23 @@ public class KitaosProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(KitaosDatabase.Tables.TALKS);
 
-        switch (sUriMatcher.match(uri)) {
+        int what = sUriMatcher.match(uri);
+        switch (what) {
             case TALKS:
+                qb.setTables(KitaosDatabase.Tables.TALKS);
                 break;
 
             case TALKS_ID:
+                qb.setTables(KitaosDatabase.Tables.TALKS);
                 qb.appendWhere(KitaosContract.Talks._ID + "=" + uri.getPathSegments().get(1));
                 break;
 
+            case TALKS_HOURS:
+                qb.setTables(KitaosDatabase.Tables.TALKS);
+                projection = new String[] { KitaosContract.Talks.START_DATE, KitaosContract.Talks.START_DATE+ " as " + BaseColumns._ID};
+                qb.setDistinct(true);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -138,6 +149,8 @@ public class KitaosProvider extends ContentProvider {
         if (rowId > 0) {
             Uri myUri = ContentUris.withAppendedId(KitaosContract.Talks.CONTENT_URI, rowId);
             getContext().getContentResolver().notifyChange(myUri, null);
+            getContext().getContentResolver().notifyChange(KitaosContract.Talks.uri(), null);
+            getContext().getContentResolver().notifyChange(KitaosContract.Talks.hoursUri(), null);
             return myUri;
         }
 

@@ -3,12 +3,14 @@ package org.agilespain.kitaos;
 import android.content.ContentProviderOperation;
 import android.database.Cursor;
 import android.test.ProviderTestCase2;
+import android.text.format.DateFormat;
 import org.agilespain.kitaos.provider.KitaosContract;
 import org.agilespain.kitaos.service.TalksJsonHandler;
 import org.agilespain.kitaos.provider.KitaosContract.Talks;
 import org.agilespain.kitaos.provider.KitaosProvider;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Test the json handler for the talks service
@@ -59,9 +61,23 @@ public class TalksJsonHandlerTest  extends ProviderTestCase2<KitaosProvider> {
         cursor.moveToFirst();
 
         assertEquals("Android", cursor.getString(cursor.getColumnIndex(Talks.TITLE)));
-        String date = cursor.getString(cursor.getColumnIndex(Talks.DATE));
+        long datetimestamp = cursor.getLong(cursor.getColumnIndex(Talks.START_DATE));
+        CharSequence date =  DateFormat.format("yyyy-MM-dd h:mm", new Date(datetimestamp));
         assertEquals("2012-06-23 11:00", date);
-        assertEquals(1, cursor.getInt(cursor.getColumnIndex(Talks.DURATION)));
+
+        int duration = (int) ((cursor.getLong(cursor.getColumnIndex(Talks.END_DATE)) - datetimestamp) / (60 * 60 * 1000));
+
+        assertEquals(1, duration);
         assertEquals("sala1", cursor.getString(cursor.getColumnIndex(Talks.ROOM)));
+    }
+    
+    public void testGetMillis() throws Exception {
+        String expected = "2012-02-29 10:30";
+
+        long millis = mTalksHandler.getMillis(expected);
+        Date date = new Date(millis);
+
+        CharSequence actual = DateFormat.format("yyyy-MM-dd h:mm", date);
+        assertEquals(expected,actual);
     }
 }

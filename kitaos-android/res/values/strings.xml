@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AOS 2012</string>
+    <string name="tab_panel">Panel</string>
+    <string name="tab_talks">Charlas</string>
 </resources>
