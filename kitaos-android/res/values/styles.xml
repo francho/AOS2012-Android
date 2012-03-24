@@ -16,5 +16,8 @@
 -->
 <resources>
     <!-- Base application theme is the default theme. -->
-
+    <declare-styleable name="kitaos">
+        <attr name="kitaosTabViewStyle" format="reference" />
+        <attr name="kitaosSelectorStyle" format="reference" />
+    </declare-styleable>
 </resources>

@@ -79,7 +79,7 @@ public class KitaosTimeRulerView extends View {
         mStartHour = a.getInt(R.styleable.TimeRulerView_startHour, mStartHour);
         mEndHour = a.getInt(R.styleable.TimeRulerView_endHour, mEndHour);
 
-        mTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/GochiHand-Regular.ttf");
+        mTypeface = TypefaceUtils.getTitleFont(getContext());
 
 
         a.recycle();

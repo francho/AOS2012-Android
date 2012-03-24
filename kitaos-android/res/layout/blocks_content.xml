@@ -39,7 +39,7 @@
             iosched:labelColor="#000000"
             iosched:dividerColor="#d9d9d9"
             iosched:startHour="9"
-            iosched:endHour="23" />
+            iosched:endHour="21" />
         <!-- -->
         <View
             android:id="@id/blocks_now"

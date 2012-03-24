@@ -67,11 +67,7 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
     }
 
     private void setPostitTypeface() {
-        String ttf = "fonts/ShadowsIntoLightTwo-Regular.ttf";
-        //ttf = "fonts/IndieFlower.ttf";
-
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), ttf);
-        setTypeface(font);
+        setTypeface(TypefaceUtils.getNormalFont(getContext()));
     }
 
     private void setPostitBackground(boolean containsStarred) {
