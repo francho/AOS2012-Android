@@ -15,13 +15,14 @@
     limitations under the License.
 -->
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/abs__action_button_min_width"
+        android:layout_height="fill_parent"
         android:gravity="center_horizontal|center_vertical"
-        android:padding="5dip">
+        >
 
     <ProgressBar android:indeterminate="true"
-            android:layout_width="18dip"
-            android:layout_height="18dip" />
-    </FrameLayout>
+                 android:layout_width="@dimen/abs__action_button_min_width"
+                 android:layout_height="fill_parent"
+            />
+</FrameLayout>

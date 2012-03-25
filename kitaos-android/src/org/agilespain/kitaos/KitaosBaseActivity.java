@@ -31,6 +31,7 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
             switch (resultCode) {
                 case SyncService.STATUS_RUNNING:
                     // setSupportProgressBarIndeterminateVisibility(true);
+
                     if(mItemReload!=null) mItemReload.setActionView(R.layout.progressbar);
                     break;
                 case SyncService.STATUS_ERROR:
