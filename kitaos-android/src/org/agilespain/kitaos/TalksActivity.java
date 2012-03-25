@@ -19,50 +19,53 @@ package org.agilespain.kitaos;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.os.Handler;
+import android.os.Message;
+import android.os.ResultReceiver;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import org.agilespain.kitaos.app.KitaosIntent;
+import org.agilespain.kitaos.service.SyncService;
 import org.agilespain.kitaos.ui.FragmentPanel;
 import org.agilespain.kitaos.ui.FragmentTalks;
 import org.agilespain.kitaos.widget.ViewPagerTabsAdapter;
 
-public class TalksActivity extends SherlockFragmentActivity {
-    private TabHost mTabHost;
+public class TalksActivity extends KitaosBaseActivity {
     private static final String TAG_PANEL = "panel";
-    private ViewPager mViewPager;
     private static final String TAG_TALKS = "talks";
-    private ViewPagerTabsAdapter mTabsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tabhost);
-       // ((TextView)findViewById(R.id.text)).setText(R.string.simple_content);
-        setupTabs();
-        Intent intent = new Intent(KitaosIntent.ACTION_SYNC);
-        startService(intent);
+        setSupportProgressBarIndeterminateVisibility(false);
 
+        setupTabs();
     }
+
+
 
     private void setupTabs() {
-        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup();
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mTabsAdapter = new ViewPagerTabsAdapter(this, mTabHost, mViewPager);
-        final TabHost.TabSpec tab1 = createTabSpec(mTabHost, TAG_PANEL,
+        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+        tabHost.setup();
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPagerTabsAdapter tabsAdapter = new ViewPagerTabsAdapter(this, tabHost, viewPager);
+        final TabHost.TabSpec tab1 = createTabSpec(tabHost, TAG_PANEL,
                 R.string.tab_panel);
-        mTabsAdapter.addTab(tab1, FragmentPanel.class, null);
-        final TabHost.TabSpec tab2 = createTabSpec(mTabHost, TAG_TALKS,
+        tabsAdapter.addTab(tab1, FragmentPanel.class, null);
+        final TabHost.TabSpec tab2 = createTabSpec(tabHost, TAG_TALKS,
                 R.string.tab_talks);
-        mTabsAdapter.addTab(tab2, FragmentTalks.class, null);
-        
+        tabsAdapter.addTab(tab2, FragmentTalks.class, null);
     }
+
     private TabHost.TabSpec createTabSpec(TabHost tabHost, String tag, int labelId) {
         final Context context = tabHost.getContext();
 
@@ -70,7 +73,7 @@ public class TalksActivity extends SherlockFragmentActivity {
 
         final CharSequence label = context.getText(labelId);
 
-        AttributeSet attrs = null ;
+        AttributeSet attrs = null;
         int defStyle = R.attr.kitaosTabViewStyle;
         final TextView view = new TextView(context, attrs, defStyle);
         view.setText(label);

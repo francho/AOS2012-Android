@@ -34,4 +34,8 @@
     <item type="id" name="talk_description" />
     <item type="id" name="talk_time_start" />
     <item type="id" name="talk_time_end" />
+
+    <item type="id" name="menu_item_reload" />
+    <item type="id" name="menu_item_talks" />
+    <item type="id" name="menu_item_info" />
 </resources>

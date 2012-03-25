@@ -56,7 +56,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
     private long mTimeEnd = -1;
 
     private static final int DISABLED_BLOCK_ALPHA = 255;
-    private ContentObserver mObserver = new BlocksContentObserver();
+    private ContentObserver mContentObserver = new BlocksContentObserver();
 
     class BlocksContentObserver extends  ContentObserver {
         public BlocksContentObserver() {
@@ -95,12 +95,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         mBlocks = (BlocksLayout) v.findViewById(R.id.blocks);
         mNowView = v.findViewById(R.id.blocks_now);
 
-        mBlocks.setDrawingCacheEnabled(true);
-        mBlocks.setAlwaysDrawnWithCacheEnabled(true);
 
-        getActivity().getContentResolver().registerContentObserver(KitaosContract.Talks.uri(), true, mObserver);
-
-        updateTalks();
 
         return v;
     }
@@ -108,6 +103,13 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mBlocks.setDrawingCacheEnabled(true);
+        mBlocks.setAlwaysDrawnWithCacheEnabled(true);
+
+
+        updateTalks();
+
         mNowView.post(new Runnable() {
             public void run() {
                 updateNowView(true);
@@ -190,6 +192,9 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         activity.registerReceiver(mReceiver, filter, null, new Handler());
 
+
+        activity.getContentResolver().registerContentObserver(KitaosContract.Talks.uri(), true, mContentObserver);
+
         // onQueryComplete(0,null,null);
 
     }
@@ -200,6 +205,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
 
         super.onPause();
         getActivity().unregisterReceiver(mReceiver);
+        getActivity().getContentResolver().unregisterContentObserver(mContentObserver);
     }
     /**
      * {@inheritDoc}
