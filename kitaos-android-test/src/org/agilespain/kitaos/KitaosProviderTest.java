@@ -1,4 +1,4 @@
-package org.agilespain.kitaos;
+package org.agilespain.kitaos.test;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -43,8 +43,67 @@ public class KitaosProviderTest extends ProviderTestCase2<KitaosProvider> {
         } catch (IllegalArgumentException e) {
             assertTrue(true);
         }
-    }
+        
+        
+        Uri uri1 = KitaosContract.Speakers.uri(2);
 
+        Cursor cursor1 = mProvider.query(uri1, null, null, null, null);
+        assertNotNull(cursor1);
+
+        try {
+            mProvider.query(Uri.parse("definitelywrong"), null, null, null, null);
+            // we're wrong if we get until here!
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+    
+    public void testInsertSpeaker() throws Exception {
+        final ContentValues values = new ContentValues();
+
+        int id = 123;
+        String firstName = "David";
+        String lastName="Pina López";
+        String email = "dpinalopez68@gmail.com";
+        String twitter ="@dpinalopez68";
+        String blog ="http://dpinalopez68.wordpress.com/";
+        
+        
+
+        values.put(KitaosContract.Speakers._ID, id);
+        values.put(KitaosContract.Speakers.FIRSTNAME, firstName);
+        values.put(KitaosContract.Speakers.LASTNAME, lastName);
+        values.put(KitaosContract.Speakers.EMAIL, email);
+        values.put(KitaosContract.Speakers.TWITTER, twitter);
+        values.put(KitaosContract.Speakers.BLOG, blog);
+
+        mProvider.insert(KitaosContract.Speakers.uri(),values);
+
+        String[] projection = {
+                KitaosContract.Speakers._ID,
+                KitaosContract.Speakers.FIRSTNAME,
+                KitaosContract.Speakers.LASTNAME,
+                KitaosContract.Speakers.EMAIL,
+                KitaosContract.Speakers.TWITTER,
+                KitaosContract.Speakers.BLOG,
+        };
+        Cursor cursor = mProvider.query(KitaosContract.Speakers.uri(id),projection,null,null,null);
+        cursor.moveToFirst();
+        
+        assertEquals(id, cursor.getInt(0));
+        assertEquals(firstName, cursor.getString(1));
+        assertEquals(lastName, cursor.getString(2));
+        assertEquals(email, cursor.getString(3));
+        assertEquals(twitter, cursor.getString(4));
+        assertEquals(blog, cursor.getString(5));
+
+        cursor.close();
+        
+        
+    }
+    
+    
     public void testInsert() throws Exception {
         final ContentValues values = new ContentValues();
 
@@ -83,8 +142,27 @@ public class KitaosProviderTest extends ProviderTestCase2<KitaosProvider> {
         assertEquals(speaker, cursor.getString(5));
 
         cursor.close();
+        
+        
     }
 
+    
+    public void testDeleteSpeaker() throws Exception {
+        int id = 999;
+        final ContentValues values = new ContentValues();
+        values.put(KitaosContract.Speakers._ID, id);
+
+        Cursor cursor;
+
+        mProvider.insert(KitaosContract.Speakers.uri(),values);
+        cursor = mProvider.query(KitaosContract.Speakers.uri(id),null,null,null,null);
+        assertEquals(1,cursor.getCount());
+
+        mProvider.delete(KitaosContract.Speakers.uri(id),null,null);
+        cursor = mProvider.query(KitaosContract.Speakers.uri(id),null,null,null,null);
+        assertEquals(0,cursor.getCount());
+    }
+    
     public void testDelete() throws Exception {
         int id = 999;
         final ContentValues values = new ContentValues();
@@ -119,6 +197,26 @@ public class KitaosProviderTest extends ProviderTestCase2<KitaosProvider> {
         assertEquals("Hi dude", cursor.getString(cursor.getColumnIndex(KitaosContract.Talks.TITLE)));
     }
 
+    public void testUpdateSpeakers() throws Exception {
+        final int id = 343;
+        final Uri uri = KitaosContract.Speakers.uri(id);
+        final ContentValues values = new ContentValues();
+
+        values.put(KitaosContract.Speakers._ID, id);
+        values.put(KitaosContract.Speakers.FIRSTNAME, "David");
+
+        mProvider.insert(KitaosContract.Speakers.uri(),values);
+
+        values.put(KitaosContract.Speakers.FIRSTNAME, "Francho");
+        mProvider.update(uri, values, null, null);
+
+        Cursor cursor = mProvider.query(uri,null,null,null,null);
+        cursor.moveToFirst();
+        assertEquals("Francho", cursor.getString(cursor.getColumnIndex(KitaosContract.Speakers.FIRSTNAME)));
+    }
+    
+    
+    
     public void testBulkInsert() throws Exception {
 
     }
