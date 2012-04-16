@@ -11,11 +11,9 @@ import org.agilespain.kitaos.app.KitaosIntent;
 import org.agilespain.kitaos.service.SyncService;
 
 /**
- * Created by IntelliJ IDEA.
- * User: francho
- * Date: 25/03/12
- * Time: 00:23
- * To change this template use File | Settings | File Templates.
+ * @author francho
+ * @see http://francho.org
+ *
  */
 public class KitaosBaseActivity extends SherlockFragmentActivity {
 
