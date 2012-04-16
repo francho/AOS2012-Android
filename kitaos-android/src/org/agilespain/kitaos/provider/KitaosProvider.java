@@ -40,7 +40,8 @@ public class KitaosProvider extends ContentProvider {
 
     private static final int TALKS = 1;
     private static final int TALKS_ID = 2;
-
+    private static final int SPEAKERS = 3;
+    private static final int SPEAKERS_ID = 4;
     private static final UriMatcher sUriMatcher;
 
     /**
@@ -51,6 +52,8 @@ public class KitaosProvider extends ContentProvider {
 
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks/#", TALKS_ID);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks", TALKS);
+        sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "speakers/#", SPEAKERS_ID);
+        sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "speakers", SPEAKERS);
     }
 
 
@@ -72,13 +75,22 @@ public class KitaosProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(KitaosDatabase.Tables.TALKS);
-
+        
         switch (sUriMatcher.match(uri)) {
+       
+        	case SPEAKERS:
+        		qb.setTables(KitaosDatabase.Tables.SPEAKERS);
+        		break;
+        	case SPEAKERS_ID:
+        		qb.setTables(KitaosDatabase.Tables.SPEAKERS);
+        	 	qb.appendWhere(KitaosContract.Speakers._ID + "=" + uri.getPathSegments().get(1));
+            	break;        	
+            	
             case TALKS:
+            	qb.setTables(KitaosDatabase.Tables.TALKS);
                 break;
-
             case TALKS_ID:
+            	qb.setTables(KitaosDatabase.Tables.TALKS);
                 qb.appendWhere(KitaosContract.Talks._ID + "=" + uri.getPathSegments().get(1));
                 break;
 
@@ -104,10 +116,12 @@ public class KitaosProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case TALKS:
                 return KitaosContract.Talks.CONTENT_TYPE;
-
             case TALKS_ID:
                 return KitaosContract.Talks.ITEM_CONTENT_TYPE;
-
+            case SPEAKERS:
+            	return KitaosContract.Speakers.CONTENT_TYPE;
+            case SPEAKERS_ID:
+            	return KitaosContract.Speakers.ITEM_CONTENT_TYPE;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -119,7 +133,7 @@ public class KitaosProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues initialValues) {
         // Validate the requested uri
-        if (sUriMatcher.match(uri) != TALKS) {
+        if (sUriMatcher.match(uri) != TALKS && sUriMatcher.match(uri) != SPEAKERS) {
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
@@ -134,13 +148,21 @@ public class KitaosProvider extends ContentProvider {
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-        long rowId = db.insert(KitaosDatabase.Tables.TALKS, null, values);
-        if (rowId > 0) {
-            Uri myUri = ContentUris.withAppendedId(KitaosContract.Talks.CONTENT_URI, rowId);
-            getContext().getContentResolver().notifyChange(myUri, null);
-            return myUri;
-        }
-
+        if (sUriMatcher.match(uri) == TALKS) {
+	        long rowId = db.insert(KitaosDatabase.Tables.TALKS, null, values);
+	        if (rowId > 0) {
+	            Uri myUri = ContentUris.withAppendedId(KitaosContract.Talks.CONTENT_URI, rowId);
+	            getContext().getContentResolver().notifyChange(myUri, null);
+	            return myUri;
+	        }
+        } else if (sUriMatcher.match(uri) == SPEAKERS) {
+		        	long rowId = db.insert(KitaosDatabase.Tables.SPEAKERS, null, values);
+			        if (rowId > 0) {
+			            Uri myUri = ContentUris.withAppendedId(KitaosContract.Speakers.CONTENT_URI, rowId);
+			            getContext().getContentResolver().notifyChange(myUri, null);
+			            return myUri;
+			        }        	
+        		}
         throw new SQLException("Failed to insert row into " + uri);
     }
 
@@ -150,18 +172,23 @@ public class KitaosProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String where, String[] whereArgs) {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        String favoritosId = uri.getPathSegments().get(1);
         int count;
         switch (sUriMatcher.match(uri)) {
+        	case SPEAKERS_ID:
+                 count = db.delete(KitaosDatabase.Tables.SPEAKERS, KitaosContract.Speakers._ID + "=" + favoritosId
+                         + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+                 break;
+        	case SPEAKERS:
+                count = db.delete(KitaosDatabase.Tables.SPEAKERS, where, whereArgs);
+                break;       	
             case TALKS:
                 count = db.delete(KitaosDatabase.Tables.TALKS, where, whereArgs);
                 break;
-
             case TALKS_ID:
-                String favoritosId = uri.getPathSegments().get(1);
                 count = db.delete(KitaosDatabase.Tables.TALKS, KitaosContract.Talks._ID + "=" + favoritosId
                         + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
                 break;
-
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -176,18 +203,23 @@ public class KitaosProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        String myId = uri.getPathSegments().get(1);
         int count;
         switch (sUriMatcher.match(uri)) {
+        	case SPEAKERS_ID:
+        		count = db.update(KitaosDatabase.Tables.SPEAKERS, values, KitaosContract.Speakers._ID + "=" + myId
+                    + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+        		break;	
+        	case SPEAKERS:
+        		count = db.update(KitaosDatabase.Tables.SPEAKERS, values, where, whereArgs);
+        		break;
             case TALKS:
                 count = db.update(KitaosDatabase.Tables.TALKS, values, where, whereArgs);
                 break;
-
             case TALKS_ID:
-                String myId = uri.getPathSegments().get(1);
                 count = db.update(KitaosDatabase.Tables.TALKS, values, KitaosContract.Talks._ID + "=" + myId
                         + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
                 break;
-
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -202,6 +234,8 @@ public class KitaosProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case TALKS:
                 break;
+            case SPEAKERS:
+            	break;
         }
 
         return super.bulkInsert(uri, values);

@@ -29,6 +29,7 @@ public class KitaosContract {
     public static final String CONTENT_AUTHORITY = "org.agilespain.kitaos";
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     private static final String PATH_TALKS = "talks";
+    private static final String PATH_SPEAKERS = "speakers";
 
     // This class cannot be instantiated
     private KitaosContract() {
@@ -65,6 +66,36 @@ public class KitaosContract {
             return CONTENT_URI;
         }
     }
+    
+    
+    public static final class Speakers implements BaseColumns {
+        protected static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_SPEAKERS).build();
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/org.agilespain.kitaos.speakers";
+        public static final String ITEM_CONTENT_TYPE = "vnd.android.cursor.item/org.agilespain.kitaos.speakers";
+
+        private Speakers() {
+        }
+
+        public static final String FIRSTNAME = "firstname";
+        public static final String LASTNAME = "lastname";
+        public static final String EMAIL = "email";
+        public static final String TWITTER = "twitter";
+        public static final String BLOG = "blog";
+      
+
+
+        
+        public static Uri uri(int id) {
+            return CONTENT_URI.buildUpon().appendPath(""+id).build();
+        }
+
+        public static Uri uri() {
+            return CONTENT_URI;
+        }
+        
+    }
+    
 }
 
 

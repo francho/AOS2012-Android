@@ -27,6 +27,7 @@ class KitaosDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
     	if(db.isReadOnly()) { db=getWritableDatabase(); }
         createTalks(db);
+        createSpeakers(db);
     }
 
     /**
@@ -57,11 +58,20 @@ class KitaosDatabase extends SQLiteOpenHelper {
                 KitaosContract.Talks.SPEAKER + " TEXT" +
         		");");
     }
-    
-
+    private void createSpeakers(SQLiteDatabase db){
+    	db.execSQL("CREATE TABLE " + Tables.SPEAKERS + " (" +
+        		KitaosContract.Speakers._ID + " INTEGER PRIMARY KEY," +
+                KitaosContract.Speakers.FIRSTNAME + " TEXT," +
+                KitaosContract.Speakers.LASTNAME + " TEXT," +
+                KitaosContract.Speakers.EMAIL + " TEXT," +
+                KitaosContract.Speakers.TWITTER + " TEXT," +
+                KitaosContract.Speakers.BLOG + " TEXT" +
+        		");");
+    }
     
     interface Tables {
         String TALKS = "talks";
+        String SPEAKERS = "speakers";
     }
 }
 
