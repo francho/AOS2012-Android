@@ -1,4 +1,4 @@
-package org.agilespain.kitaos.test;
+package org.agilespain.kitaos;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -64,7 +64,7 @@ public class KitaosProviderTest extends ProviderTestCase2<KitaosProvider> {
 
         int id = 123;
         String firstName = "David";
-        String lastName="Pina López";
+        String lastName="Pina Lï¿½pez";
         String email = "dpinalopez68@gmail.com";
         String twitter ="@dpinalopez68";
         String blog ="http://dpinalopez68.wordpress.com/";
