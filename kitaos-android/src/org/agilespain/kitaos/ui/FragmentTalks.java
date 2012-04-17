@@ -4,15 +4,15 @@ import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.CursorTreeAdapter;
+import android.widget.ExpandableListView;
+import android.widget.SimpleCursorTreeAdapter;
+import android.widget.TextView;
 import org.agilespain.kitaos.R;
 import org.agilespain.kitaos.provider.KitaosContract;
 import org.agilespain.kitaos.widget.TypefaceUtils;
@@ -68,12 +68,13 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
 
         // Note that the constructor does not take a Cursor. This is done to avoid querying the 
         // database on the main thread.
-        public MyExpandableListAdapter(Context context, int groupLayout,
-                                       int childLayout, String[] groupFrom, int[] groupTo, String[] childrenFrom,
-                                       int[] childrenTo) {
+        public MyExpandableListAdapter(Context context,
+                                       int groupLayout, String[] groupFrom, int[] groupTo,
+                                       int childLayout, String[] childrenFrom, int[] childrenTo) {
 
-            super(context, null, groupLayout, groupFrom, groupTo, childLayout, childrenFrom,
-                    childrenTo);
+            super(context, null,
+                    groupLayout, groupFrom, groupTo,
+                    childLayout, childrenFrom, childrenTo);
         }
 
         @Override
@@ -141,7 +142,7 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
         // Inflate the layout for this fragment
         ExpandableListView v = (ExpandableListView) inflater.inflate(R.layout.expandable_list, container, false);
 
-        v.setAdapter(mAdapter);
+
         // Query for talks
         mQueryHandler.startQuery(QueryHandler.TOKEN_GROUP,
                 null,
@@ -150,7 +151,7 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
                 null,
                 null,
                 KitaosContract.Talks.START_DATE + " ASC");
-
+        v.setAdapter(mAdapter);
         return v;
     }
 
@@ -162,9 +163,9 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
     private SimpleCursorTreeAdapter getAdapter() {
         SimpleCursorTreeAdapter adapter = new MyExpandableListAdapter(this.getActivity(),
                 R.layout.expandable_list_group_title,
-                R.layout.expandable_list_item_talk,
                 new String[]{KitaosContract.Talks.START_DATE}, // Name for group layouts
                 new int[]{android.R.id.text1},
+                R.layout.expandable_list_item_talk,
                 new String[]{
                         KitaosContract.Talks.TITLE, 
                         KitaosContract.Talks.ROOM
@@ -179,18 +180,20 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
         return adapter;
     }
 
+    /**
+     * setViewValue
+     *
+     * @param view
+     * @param cursor
+     * @param i
+     * @return
+     */
     @Override
     public boolean setViewValue(View view, Cursor cursor, int i) {
         if (view.getId() == android.R.id.text1) {
             CharSequence time = DateFormat.format("h:mm aa", cursor.getLong(i));
             ((TextView) view).setText(time);
-            // ((TextView) view).setTypeface(mTitleFont);
-
             return true;
-        }
-
-        if(view instanceof TextView) {
-           // ((TextView) view).setTypeface(mNormalFont);
         }
 
         return false;

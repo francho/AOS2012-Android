@@ -53,7 +53,7 @@ public class TalksJsonHandlerTest  extends ProviderTestCase2<KitaosProvider> {
     public void testParseTalksJson() throws Exception {
         ArrayList<ContentProviderOperation> batch = mTalksHandler.parse(getDummyJson(), getContext().getContentResolver());
 
-        assertEquals(2, batch.size());
+        assertEquals(3, batch.size());
 
         getProvider().applyBatch(batch);
 

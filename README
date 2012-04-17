@@ -1,6 +1,8 @@
 Version Android de la APP creada para el Agile Open Space 2012 (AOS'2012) que se celebrará en Zaragoza el 23 de Junio de 2012
 
-Para compilar el proyecto es necesaria la librería SherlockActionBar 4.0.0 http://actionbarsherlock.com/download.html
+Para compilar el proyecto son necesarias las librerías:
+ - SherlockActionBar 4.0.2 http://actionbarsherlock.com/download.html
+ - android-support-v4 r17 (incluida con el sdk)
 
 Más información en:
 

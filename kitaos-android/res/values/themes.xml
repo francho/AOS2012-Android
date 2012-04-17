@@ -8,7 +8,9 @@
 
     <style name="KitAOS.TabView" parent="android:Widget">
         <item name="android:textColor">@color/abs__primary_text_holo_light</item>
+        <!--
         <item name="android:background">@drawable/abs__tab_indicator_holo</item>
+        -->
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
         <item name="android:ellipsize">marquee</item>

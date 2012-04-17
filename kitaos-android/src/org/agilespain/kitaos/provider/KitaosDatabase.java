@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 class KitaosDatabase extends SQLiteOpenHelper {
 	public static final String DATABASE_NAME = "kitaos.db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 	
 	/**
 	 * config the database
@@ -31,18 +31,11 @@ class KitaosDatabase extends SQLiteOpenHelper {
     }
 
     /**
-     *
+     * on db upgrade recreate all tables
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    	//if(db.isReadOnly()) { db=getWritableDatabase(); }
-        
-//    	switch(newVersion) {
-//    	case 2:
-//    		//createTalks(db);
-//    	}
-
-        createTalks(db);
+        onCreate(db);
     }
     
     /**
@@ -62,6 +55,7 @@ class KitaosDatabase extends SQLiteOpenHelper {
         		");");
     }
     private void createSpeakers(SQLiteDatabase db){
+        db.execSQL("DROP TABLE IF EXISTS " + Tables.SPEAKERS + " ;");
     	db.execSQL("CREATE TABLE " + Tables.SPEAKERS + " (" +
         		KitaosContract.Speakers._ID + " INTEGER PRIMARY KEY," +
                 KitaosContract.Speakers.FIRSTNAME + " TEXT," +
