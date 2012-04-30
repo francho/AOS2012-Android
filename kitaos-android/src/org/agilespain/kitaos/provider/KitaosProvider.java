@@ -41,19 +41,19 @@ public class KitaosProvider extends ContentProvider {
 
     private static final int TALKS = 1;
     private static final int TALKS_ID = 2;
-    private static final int SPEAKERS = 3;
-    private static final int SPEAKERS_ID = 4;
-    private static final int TALKS_HOURS = 5;
-    private static final UriMatcher sUriMatcher;
+    private static final int TALKS_HOURS = 3;
+    private static final int SPEAKERS = 4;
+    private static final int SPEAKERS_ID = 5;
 
     /**
      * Configuramos las urls disponibles
      */
+    private static final UriMatcher sUriMatcher;
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-        sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks/#", TALKS_ID);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks_hours", TALKS_HOURS);
+        sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks/#", TALKS_ID);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks", TALKS);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "speakers/#", SPEAKERS_ID);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "speakers", SPEAKERS);

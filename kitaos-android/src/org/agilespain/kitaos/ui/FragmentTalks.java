@@ -1,6 +1,5 @@
 package org.agilespain.kitaos.ui;
 
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -9,12 +8,12 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListView;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 import org.agilespain.kitaos.R;
 import org.agilespain.kitaos.provider.KitaosContract;
+import org.agilespain.kitaos.widget.TalksByHourTreeAdapter;
 import org.agilespain.kitaos.widget.TypefaceUtils;
 
 /**
@@ -24,79 +23,12 @@ import org.agilespain.kitaos.widget.TypefaceUtils;
  * Time: 18:51
  * To change this template use File | Settings | File Templates.
  */
-public class FragmentTalks extends android.support.v4.app.Fragment implements SimpleCursorTreeAdapter.ViewBinder {
+public class FragmentTalks extends android.support.v4.app.Fragment implements TalksByHourTreeAdapter.ViewBinder {
 
-    private SimpleCursorTreeAdapter mAdapter;
-    private QueryHandler mQueryHandler;
+    private TalksByHourTreeAdapter mAdapter=null;
     private Typeface mTitleFont;
     private Typeface mNormalFont;
-
-
-    /**
-     * Async querys
-     */
-    private static final class QueryHandler extends AsyncQueryHandler {
-        private CursorTreeAdapter mAdapter;
-
-        public static final int TOKEN_GROUP = 0;
-        public static final int TOKEN_CHILD = 1;
-
-        public QueryHandler(Context context, CursorTreeAdapter adapter) {
-            super(context.getContentResolver());
-            this.mAdapter = adapter;
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            switch (token) {
-                case TOKEN_GROUP:
-                    mAdapter.setGroupCursor(cursor);
-                    break;
-
-                case TOKEN_CHILD:
-                    int groupPosition = (Integer) cookie;
-                    mAdapter.setChildrenCursor(groupPosition, cursor);
-                    break;
-            }
-        }
-    }
-
-    /**
-     * List adapter
-     */
-    public class MyExpandableListAdapter extends SimpleCursorTreeAdapter {
-
-        // Note that the constructor does not take a Cursor. This is done to avoid querying the 
-        // database on the main thread.
-        public MyExpandableListAdapter(Context context,
-                                       int groupLayout, String[] groupFrom, int[] groupTo,
-                                       int childLayout, String[] childrenFrom, int[] childrenTo) {
-
-            super(context, null,
-                    groupLayout, groupFrom, groupTo,
-                    childLayout, childrenFrom, childrenTo);
-        }
-
-        @Override
-        protected Cursor getChildrenCursor(Cursor groupCursor) {
-            // Given the group, we return a cursor for all the children within that group 
-            Long startDate = groupCursor.getLong(0);
-            mQueryHandler.startQuery(QueryHandler.TOKEN_CHILD,
-                    groupCursor.getPosition(),
-                    KitaosContract.Talks.uri(),
-                    new String[]{
-                            KitaosContract.Talks._ID,
-                            KitaosContract.Talks.TITLE,
-                            KitaosContract.Talks.ROOM,
-                            KitaosContract.Talks.SPEAKER
-                    },
-                    KitaosContract.Talks.START_DATE + "=?",
-                    new String[]{""+startDate},
-                    KitaosContract.Talks.ROOM + " ASC");
-
-            return null;
-        }
-    }
+    private ExpandableListView mTalksList;
 
     /**
      * onCreate
@@ -107,11 +39,7 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = getAdapter();
-        mQueryHandler = new QueryHandler(this.getActivity(), mAdapter);
-
         mTitleFont = TypefaceUtils.getTitleFont(this.getActivity());
-
         mNormalFont = TypefaceUtils.getNormalFont(this.getActivity());
     }
 
@@ -124,8 +52,25 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
 
         // Null out the group cursor. This will cause the group cursor and all of the child cursors
         // to be closed.
-        mAdapter.changeCursor(null);
-        mAdapter = null;
+        if (mAdapter != null) {
+            mAdapter.changeCursor(null);
+            mAdapter = null;
+        }
+    }
+
+    /**
+     * Attach to list view once Fragment is ready to run.
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(mTalksList==null) {
+            return;
+        }
+        if (mAdapter == null) {
+            mAdapter = getTalksAdapter();
+        }
+        mTalksList.setAdapter(mAdapter);
     }
 
     /**
@@ -140,19 +85,9 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ExpandableListView v = (ExpandableListView) inflater.inflate(R.layout.expandable_list, container, false);
+        mTalksList = (ExpandableListView) inflater.inflate(R.layout.expandable_list, container, false);
 
-
-        // Query for talks
-        mQueryHandler.startQuery(QueryHandler.TOKEN_GROUP,
-                null,
-                KitaosContract.Talks.hoursUri(),
-                null,
-                null,
-                null,
-                KitaosContract.Talks.START_DATE + " ASC");
-        v.setAdapter(mAdapter);
-        return v;
+        return mTalksList;
     }
 
     /**
@@ -160,14 +95,22 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Si
      *
      * @return
      */
-    private SimpleCursorTreeAdapter getAdapter() {
-        SimpleCursorTreeAdapter adapter = new MyExpandableListAdapter(this.getActivity(),
-                R.layout.expandable_list_group_title,
+    private TalksByHourTreeAdapter getTalksAdapter() {
+        Context context = getActivity();
+
+        Cursor cursor = context.getContentResolver().query(KitaosContract.Talks.hoursUri(),
+                new String[] {KitaosContract.Talks.START_DATE, KitaosContract.Talks._ID},
+                null,
+                null,
+                KitaosContract.Talks.START_DATE + " ASC");
+
+        TalksByHourTreeAdapter adapter = new TalksByHourTreeAdapter(context,
+                cursor, R.layout.expandable_list_group_title,
                 new String[]{KitaosContract.Talks.START_DATE}, // Name for group layouts
                 new int[]{android.R.id.text1},
                 R.layout.expandable_list_item_talk,
                 new String[]{
-                        KitaosContract.Talks.TITLE, 
+                        KitaosContract.Talks.TITLE,
                         KitaosContract.Talks.ROOM
                 }, // Number for child layouts
                 new int[]{

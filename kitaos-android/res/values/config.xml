@@ -16,5 +16,6 @@
 -->
 <resources>
     <integer name="fling_animation_duration">350</integer>
-    <string name="url_api_talks">http://kitaosgae.appspot.com/api/talks</string>
+    <string name="url_api_talks">http://kit-aos.appspot.com/api/talks</string>
+    <!--<string name="url_api_talks">http://kitaosgae.appspot.com/api/talks</string>-->
 </resources>
