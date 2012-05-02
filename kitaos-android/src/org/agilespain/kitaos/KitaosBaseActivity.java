@@ -1,6 +1,7 @@
 package org.agilespain.kitaos;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.*;
 import android.widget.ProgressBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -63,6 +64,9 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
             case R.id.menu_item_reload:
                 syncData();
                 return true;
+            case R.id.menu_item_info:
+                showInfo();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -73,4 +77,12 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
         intent.putExtra(SyncService.EXTRA_STATUS_RECEIVER, (Parcelable) receiver);
         startService(intent);
     }
+
+    protected void showInfo() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        String url = getString(R.string.url_info);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+    }
+
 }

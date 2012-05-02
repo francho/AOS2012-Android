@@ -8,5 +8,6 @@ import android.content.Intent;
  * @author francho
  */
 public class KitaosIntent extends Intent {
-    public static String ACTION_SYNC = "kitaos.intent.action.sync";
+    public static String ACTION_SYNC = "kitaos.intent.action.SYNC";
+    public static String ACTION_INFO = "kitaos.intent.action.INFO";
 }

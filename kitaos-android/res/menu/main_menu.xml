@@ -20,6 +20,10 @@
           <!--android:title="@string/menu_talks"-->
           <!--android:showAsAction="ifRoom|withText" />-->
 
+    <item android:id="@id/menu_item_info"
+          android:icon="@drawable/ic_menu_info_details"
+          android:title="@string/menu_info"
+          android:showAsAction="ifRoom|withText" />
     <item android:id="@id/menu_item_reload"
           android:icon="@drawable/ic_refresh"
           android:title="@string/menu_reload"
