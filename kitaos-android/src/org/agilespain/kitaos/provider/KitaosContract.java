@@ -30,6 +30,7 @@ public class KitaosContract {
     private static final String PATH_TALKS = "talks";
     private static final String PATH_TALKS_HOURS = "talks_hours";
     private static final String PATH_SPEAKERS = "speakers";
+    private static final String PATH_ROOMS = "rooms";
 
     // This class cannot be instantiated
     private KitaosContract() {
@@ -68,6 +69,10 @@ public class KitaosContract {
         
         public static Uri hoursUri() {
             return BASE_CONTENT_URI.buildUpon().appendPath(PATH_TALKS_HOURS).build();
+        }
+
+        public static Uri roomsUri() {
+            return BASE_CONTENT_URI.buildUpon().appendPath(PATH_ROOMS).build();
         }
     }
     

@@ -120,7 +120,7 @@ public class TalksJsonHandler extends JsonHandler {
     interface TalksJson {
     	String DATE = "date";
     	String DURATION = "duration";
-        String HOUR = "hour";
+        String HOUR = "time";
         String ROOM = "room";
         String NAME = "name";
         // String TIME = "time";

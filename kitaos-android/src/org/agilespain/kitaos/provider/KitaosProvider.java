@@ -44,6 +44,7 @@ public class KitaosProvider extends ContentProvider {
     private static final int TALKS_HOURS = 3;
     private static final int SPEAKERS = 4;
     private static final int SPEAKERS_ID = 5;
+    private static final int ROOMS = 6;
 
     /**
      * Configuramos las urls disponibles
@@ -57,6 +58,7 @@ public class KitaosProvider extends ContentProvider {
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "talks", TALKS);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "speakers/#", SPEAKERS_ID);
         sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "speakers", SPEAKERS);
+        sUriMatcher.addURI(KitaosContract.CONTENT_AUTHORITY, "rooms", ROOMS);
     }
 
 
@@ -102,6 +104,11 @@ public class KitaosProvider extends ContentProvider {
                 projection = new String[]{KitaosContract.Talks.START_DATE, KitaosContract.Talks.START_DATE + " as " + BaseColumns._ID};
                 qb.setDistinct(true);
                 break;
+            case ROOMS:
+                qb.setTables(KitaosDatabase.Tables.TALKS);
+                projection = new String[]{KitaosContract.Talks.ROOM};
+                qb.setDistinct(true);
+                break  ;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }

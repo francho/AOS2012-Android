@@ -127,8 +127,26 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         return map;
     }
 
+    private int getNumberOfRooms() {
+        Cursor cursor = null;
+        try {
+            cursor = getActivity().getContentResolver().query(KitaosContract.Talks.roomsUri(), null, null, null, null);
+            return cursor.getCount();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 6;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     protected void updateTalks() {
         mBlocks.removeAllBlocks();
+
+        mBlocks.setNumberOfColumns(getNumberOfRooms());
+
 
         if(!this.isAdded()) {
             mHandler.removeMessages(MSG_UPDATE);
@@ -162,7 +180,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
                     column = salas.indexOf(sala);
                 }
 
-                boolean containsStarred=Math.random() * 10 < 1;
+                boolean containsStarred=false;
 
                 Log.d("BLOCKS", "column:" + column + " start:" + start + " end:" + end + " " + title);
 

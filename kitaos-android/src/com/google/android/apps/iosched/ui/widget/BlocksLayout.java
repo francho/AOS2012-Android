@@ -49,9 +49,14 @@ public class BlocksLayout extends ViewGroup {
         final TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.BlocksLayout, defStyle, 0);
 
-        mColumns = a.getInt(R.styleable.TimeRulerView_headerWidth, mColumns);
+        setNumberOfColumns(a.getInt(R.styleable.TimeRulerView_headerWidth, mColumns));
 
         a.recycle();
+    }
+
+    public void setNumberOfColumns(int columns) {
+        mColumns = columns;
+        invalidate();
     }
 
     private void ensureChildren() {
