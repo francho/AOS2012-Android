@@ -111,11 +111,13 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Ta
                 R.layout.expandable_list_item_talk,
                 new String[]{
                         KitaosContract.Talks.TITLE,
-                        KitaosContract.Talks.ROOM
+                        KitaosContract.Talks.ROOM,
+                        KitaosContract.Talks.SPEAKER
                 }, // Number for child layouts
                 new int[]{
                         R.id.talk_title,
-                        R.id.talk_room
+                        R.id.talk_room,
+                        R.id.talk_speaker
                 });
 
         adapter.setViewBinder(this);

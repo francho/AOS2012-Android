@@ -50,6 +50,10 @@ public class KitaosContract {
         public static final String END_DATE = "end_date";
         public static final String ROOM = "room";
         public static final String SPEAKER = "speaker";
+        public static final String SPEAKER_TWITTER = "speaker_email";
+        public static final String SPEAKER_EMAIL = "speaker_twitter";
+
+        public static final String DESCRIPTION = "description";
 
 
         /**

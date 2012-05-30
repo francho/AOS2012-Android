@@ -34,19 +34,22 @@ public class TalksJsonHandler extends JsonHandler {
 	/* (non-Javadoc)
 	 * Parser a json like:
 	 *
-	 * { "Android" : { "date" : "2012-06-23",
-     *       "duration" : 1,
-     *       "hour" : 11,
-     *       "room" : { "name" : "sala1" },
-     *   "time" : "11:0",
-     *           "title" : "Android"
-     * }, {
-     *   "Kanban" : { "date" : "2012-06-23",
-     *       "duration" : 1,
-     *       "hour" : 9,
-     *       "room" : { "name" : "sala2" },
-     *   "time" : "9:0",
-     *           "title" : "Kanban"
+	  "23001" : { "date" : "2012-06-23",
+      "description" : "¿Es libre o no?",
+      "duration" : 1,
+      "room" : { "name" : "sala2" },
+      "session" : 1,
+      "speaker" : { "city" : "Pamplona",
+          "computers_needed" : true,
+          "email" : "richard@gnu.org",
+          "first_name" : "Richard",
+          "last_name" : "Stallman",
+          "speaker" : true,
+          "twitter_id" : "GNUplusLINUX"
+        },
+      "time" : "9:30",
+      "title" : "TDD"
+    },
      * }
      */
 	@Override
@@ -70,8 +73,9 @@ public class TalksJsonHandler extends JsonHandler {
             builder = ContentProviderOperation.newInsert(Talks.uri());
             builder.withValue(Talks._ID, id);
             builder.withValue(Talks.TITLE, curTalk.getString(TalksJson.TITLE).trim());
+            builder.withValue(Talks.DESCRIPTION, curTalk.getString(TalksJson.DESCRIPTION).trim());
             builder.withValue(Talks.ROOM, curTalk.getJSONObject(TalksJson.ROOM).getString(TalksJson.NAME).trim());
-            
+
             String date = curTalk.getString(TalksJson.DATE).trim() + " " + normalizeTime(curTalk.getString(TalksJson.HOUR)) ;
 
             // Dates to millis
@@ -81,12 +85,21 @@ public class TalksJsonHandler extends JsonHandler {
             builder.withValue(Talks.END_DATE, getEndMillis(millisStart, curTalk.getInt(TalksJson.DURATION)));
 
             // TODO
-            // builder.withValue(Talks.SPEAKER, curTalk.getString(TalksJson.SPEAKER).trim());
+
+            JSONObject jsonSpeaker = curTalk.getJSONObject(TalksJson.SPEAKER);
+
+            String name =  jsonSpeaker.getString(TalksJson.SPEAKER_FIRST_NAME).trim() + " "
+                    + jsonSpeaker.getString(TalksJson.SPEAKER_LAST_NAME).trim();
+
+            builder.withValue(Talks.SPEAKER, name);
+            builder.withValue(Talks.SPEAKER_EMAIL, jsonSpeaker.getString(TalksJson.SPEAKER_EMAIL).trim());
+            builder.withValue(Talks.SPEAKER_TWITTER, jsonSpeaker.getString(TalksJson.SPEAKER_TWITTER).trim());
 
             batch.add(builder.build());
         }
         return batch;
     }
+
     
     public long getMillis(String dateString) {
         try {
@@ -125,6 +138,12 @@ public class TalksJsonHandler extends JsonHandler {
         String NAME = "name";
         // String TIME = "time";
         String TITLE = "title";
+        String DESCRIPTION = "description";
+        String SPEAKER = "speaker";
+        String SPEAKER_FIRST_NAME = "first_name";
+        String SPEAKER_LAST_NAME = "last_name";
+        String SPEAKER_EMAIL = "email";
+        String SPEAKER_TWITTER = "twitter_id";
     }
 
 }

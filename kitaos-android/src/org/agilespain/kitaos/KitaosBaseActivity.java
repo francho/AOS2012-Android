@@ -1,13 +1,12 @@
 package org.agilespain.kitaos;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.*;
-import android.widget.ProgressBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import org.agilespain.kitaos.app.KitaosIntent;
 import org.agilespain.kitaos.service.SyncService;
 
@@ -29,18 +28,28 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             switch (resultCode) {
                 case SyncService.STATUS_RUNNING:
-                    // setSupportProgressBarIndeterminateVisibility(true);
-
-                    if(mItemReload!=null) mItemReload.setActionView(R.layout.progressbar);
+                    setKitaosProgressbarVisible(true);
                     break;
                 case SyncService.STATUS_ERROR:
                 case SyncService.STATUS_FINISHED:
-                    if(mItemReload!=null) mItemReload.setActionView(null);
-                    // setSupportProgressBarIndeterminateVisibility(false);
+                    setKitaosProgressbarVisible(false);
                     break;
             }
         }
     }
+
+    protected void setKitaosProgressbarVisible(boolean visible) {
+        if(mItemReload==null) {
+            return;
+        }
+
+        if (visible) {
+            mItemReload.setActionView(R.layout.progressbar);
+        } else {
+            mItemReload.setActionView(null);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +70,9 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
+            case android.R.id.home:
+                goHome();
+                return true;
             case R.id.menu_item_reload:
                 syncData();
                 return true;
@@ -69,6 +81,13 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected void goHome() {
+        PackageManager pm = getPackageManager();
+        Intent intent = pm.getLaunchIntentForPackage(getApplicationInfo().packageName);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     protected void syncData() {
@@ -80,6 +99,7 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
 
     protected void showInfo() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage(getApplicationInfo().packageName);
         String url = getString(R.string.url_info);
         intent.setData(Uri.parse(url));
         startActivity(intent);

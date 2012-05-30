@@ -17,13 +17,16 @@ package org.agilespain.kitaos;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TabHost;
 import android.widget.TextView;
+import com.actionbarsherlock.view.MenuItem;
 import org.agilespain.kitaos.ui.FragmentPanel;
 import org.agilespain.kitaos.ui.FragmentTalks;
 import org.agilespain.kitaos.widget.ViewPagerTabsAdapter;
@@ -37,11 +40,14 @@ public class InfoActivity extends KitaosBaseActivity {
         setContentView(R.layout.webview);
         setSupportProgressBarIndeterminateVisibility(false);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         initWebview();
     }
 
     private void initWebview() {
         mWebview = (WebView) findViewById(R.id.webview);
+        mWebview.setWebViewClient(new KitaosWebViewClient());
     }
 
     @Override
@@ -49,7 +55,47 @@ public class InfoActivity extends KitaosBaseActivity {
         super.onStart();
 
         Uri url = getIntent().getData();
+
+
         mWebview.loadUrl(url.toString());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_reload:
+                mWebview.reload();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private class KitaosWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+            if (url.contains(getString(R.string.url_info))) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            setKitaosProgressbarVisible(true);
+            super.onPageStarted(view, url, favicon);
+
+        }
+
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            setKitaosProgressbarVisible(false);
+        }
+    }
 }

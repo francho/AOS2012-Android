@@ -55,6 +55,7 @@ public class BlocksLayout extends ViewGroup {
     }
 
     public void setNumberOfColumns(int columns) {
+        if(columns<1) { columns=1; }
         mColumns = columns;
         invalidate();
     }
