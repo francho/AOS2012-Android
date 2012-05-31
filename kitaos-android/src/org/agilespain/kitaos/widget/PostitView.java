@@ -17,17 +17,21 @@
 package org.agilespain.kitaos.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 import org.agilespain.kitaos.R;
+import org.agilespain.kitaos.provider.KitaosContract;
 
 import java.io.IOException;
 import java.util.Random;
@@ -37,14 +41,16 @@ import java.util.Random;
  * title and time span that it occupies. Usually organized automatically by
  * {@link com.google.android.apps.iosched.ui.widget.BlocksLayout} to match up against a {@ link com.google.android.apps.iosched.ui.widget.TimeRulerView} instance.
  */
-public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockView {
+public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockView implements View.OnClickListener {
 
     private float rotation = 3;
 
-    public PostitView(Context context, String blockId, String title, long startTime,
+    private long _id = -1;
+
+    public PostitView(Context context, long blockId, String title, long startTime,
                       long endTime, boolean containsStarred, int column) {
 
-        super(context, blockId, title, startTime, endTime, containsStarred, column);
+        super(context, ""+blockId, title, startTime, endTime, containsStarred, column);
 
         setPostitBackground(containsStarred);
         setTextColor(Color.BLACK);
@@ -58,6 +64,9 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
 
         setMaxLines(2);
         setEllipsize(TextUtils.TruncateAt.END);
+
+        this._id = blockId;
+        setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +90,13 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
     }
 
 
+    @Override
+    public void onClick(View view) {
+        Uri uri = KitaosContract.Talks.uri(_id);
 
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
 
+        getContext().startActivity(intent);
+    }
 }

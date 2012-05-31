@@ -1,13 +1,16 @@
 package org.agilespain.kitaos.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
@@ -23,7 +26,7 @@ import org.agilespain.kitaos.widget.TypefaceUtils;
  * Time: 18:51
  * To change this template use File | Settings | File Templates.
  */
-public class FragmentTalks extends android.support.v4.app.Fragment implements TalksByHourTreeAdapter.ViewBinder {
+public class FragmentTalks extends android.support.v4.app.Fragment implements TalksByHourTreeAdapter.ViewBinder, ExpandableListView.OnChildClickListener {
 
     private TalksByHourTreeAdapter mAdapter=null;
     private Typeface mTitleFont;
@@ -71,6 +74,7 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Ta
             mAdapter = getTalksAdapter();
         }
         mTalksList.setAdapter(mAdapter);
+        mTalksList.setOnChildClickListener(this);
     }
 
     /**
@@ -142,5 +146,17 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Ta
         }
 
         return false;
+    }
+
+
+    @Override
+    public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+        Uri uri = KitaosContract.Talks.uri(l);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uri);
+
+        startActivity(intent);
+        return true;
     }
 }

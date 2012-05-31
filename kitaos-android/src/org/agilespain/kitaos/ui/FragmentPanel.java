@@ -165,7 +165,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         try {
             ArrayList<String> salas = new ArrayList<String>();
             while (cursor.moveToNext()) {
-                String blockId = cursor.getString(0);
+                long blockId = cursor.getLong(0);
                 String title = cursor.getString(1);
                 long start = cursor.getLong(2);
                 long end = cursor.getLong(3);

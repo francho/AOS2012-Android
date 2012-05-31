@@ -26,6 +26,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".TalkActivity" android:theme="@style/Theme.Sherlock.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="vnd.android.cursor.item/org.agilespain.kitaos.talks"  />
+            </intent-filter>
+        </activity>
+
+
         <service android:name=".service.SyncService">
             <intent-filter>
                 <action android:name="kitaos.intent.action.SYNC"/>

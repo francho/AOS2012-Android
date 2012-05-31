@@ -26,6 +26,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import org.agilespain.kitaos.R;
 
@@ -93,6 +94,9 @@ public class KitaosTimeRulerView extends View {
         Time time = new Time(TimeZone.getDefault().getID());
         time.set(timeMillis);
 
+        Log.d("Time Vertical", time.hour + ":" + time.minute);
+
+
         final int minutes = ((time.hour - mStartHour) * 60) + time.minute;
         return (minutes * mHourHeight) / 60;
     }
@@ -147,7 +151,7 @@ public class KitaosTimeRulerView extends View {
 
             // TODO: localize these labels better, including handling
             // 24-hour mode when set in framework.
-            final int hour = mStartHour + i;
+            final int hour = mStartHour + 1  + i;
             String label = hour + ":00";
 
             final float labelWidth = labelPaint.measureText(label);

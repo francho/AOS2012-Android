@@ -60,10 +60,11 @@ public class KitaosContract {
          * Build {@link android.net.Uri} that references any {@link Talks} associated
          * with the requested {@link #_ID}.
          *
+         *
          * @param id talk id
          * @return the uri with the id
          */
-        public static Uri uri(int id) {
+        public static Uri uri(long id) {
             return CONTENT_URI.buildUpon().appendPath(""+id).build();
         }
 

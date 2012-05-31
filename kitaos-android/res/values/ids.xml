@@ -31,6 +31,8 @@
     <item type="id" name="talk_room" />
     <item type="id" name="talk_speaker" />
     <item type="id" name="talk_speaker_avatar" />
+    <item type="id" name="talk_speaker_twitter" />
+    <item type="id" name="talk_speaker_email" />
     <item type="id" name="talk_description" />
     <item type="id" name="talk_time_start" />
     <item type="id" name="talk_time_end" />
