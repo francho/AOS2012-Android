@@ -36,35 +36,48 @@
               android:textSize="@dimen/text_size_large"
             />
 
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
 
-    <TextView android:id="@id/talk_speaker" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_small"
-    />
+        <org.agilespain.kitaos.widget.AvatarView android:id="@id/talk_speaker_avatar"
+                                                 android:layout_width="wrap_content"
+                                                 android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+                />
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+
+        <TextView android:id="@id/talk_speaker" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textSize="@dimen/text_size_small"
+
+                  android:layout_toRightOf="@id/talk_speaker_avatar"
+                />
+
+
         <TextView android:id="@id/talk_speaker_twitter"
-                  android:layout_width="0dp"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
                   android:textSize="@dimen/text_size_small"
                   android:textColor="@color/text_alt"
 
+                  android:layout_alignLeft="@id/talk_speaker"
+                  android:layout_below="@id/talk_speaker"
+
                 />
         <TextView android:id="@id/talk_speaker_email"
-                  android:layout_width="0dp"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
                   android:textSize="@dimen/text_size_small"
                   android:textColor="@color/text_alt"
                   android:gravity="right"
+
+                  android:layout_toRightOf="@id/talk_speaker_twitter"
+                  android:layout_alignTop="@id/talk_speaker_twitter"
+                  android:layout_alignParentRight="true"
                 />
 
 
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
 

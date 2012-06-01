@@ -6,6 +6,7 @@ import android.content.ContentProviderOperation.Builder;
 import android.content.ContentResolver;
 import org.agilespain.kitaos.provider.KitaosContract;
 import org.agilespain.kitaos.provider.KitaosContract.Talks;
+import org.agilespain.kitaos.widget.DownloadAvatarAsyncTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 

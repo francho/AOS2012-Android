@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 
+import android.database.Cursor;
 import org.agilespain.kitaos.R;
+import org.agilespain.kitaos.provider.KitaosContract;
+import org.agilespain.kitaos.widget.DownloadAvatarAsyncTask;
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
@@ -137,6 +140,9 @@ public class SyncService extends IntentService {
             final long startRemote = System.currentTimeMillis();
             mRemoteExecutor
                     .executeGet(getString(R.string.url_api_talks), new TalksJsonHandler());
+
+            downloadAvatars();
+
             Log.d(TAG, "remote sync took " + (System.currentTimeMillis() - startRemote) + "ms");
 
         } catch (Exception e) {
@@ -153,6 +159,20 @@ public class SyncService extends IntentService {
         // Announce success to any surface listener
         Log.d(TAG, "sync finished");
         if (receiver != null) receiver.send(STATUS_FINISHED, Bundle.EMPTY);
+    }
+
+    private void downloadAvatars() {
+        String[] projection = new String[]{
+            "DISTINCT " + KitaosContract.Talks.SPEAKER_EMAIL
+        };
+        Cursor avatars = getContentResolver().query(KitaosContract.Talks.uri(),projection, null, null, null);
+
+        while(avatars.moveToNext()) {
+            String email = avatars.getString(0);
+            (new DownloadAvatarAsyncTask(this)).execute(email);
+        }
+        avatars.close();
+
     }
 
     /**

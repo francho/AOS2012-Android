@@ -29,6 +29,7 @@ import android.widget.TextView;
 import org.agilespain.kitaos.provider.KitaosContract;
 import org.agilespain.kitaos.ui.FragmentPanel;
 import org.agilespain.kitaos.ui.FragmentTalks;
+import org.agilespain.kitaos.widget.AvatarView;
 import org.agilespain.kitaos.widget.ViewPagerTabsAdapter;
 
 public class TalkActivity extends KitaosBaseActivity implements View.OnClickListener {
@@ -41,6 +42,7 @@ public class TalkActivity extends KitaosBaseActivity implements View.OnClickList
     private TextView mTimeStart;
     private TextView mSpeakerEmail;
     private TextView mSpeakerTwitter;
+    private AvatarView mSpeakerAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class TalkActivity extends KitaosBaseActivity implements View.OnClickList
         mTimeStart = (TextView) findViewById(R.id.talk_time_start);
         mSpeakerEmail = (TextView) findViewById(R.id.talk_speaker_email);
         mSpeakerTwitter = (TextView) findViewById(R.id.talk_speaker_twitter);
+        mSpeakerAvatar = (AvatarView) findViewById(R.id.talk_speaker_avatar);
     }
 
     @Override
@@ -84,8 +87,11 @@ public class TalkActivity extends KitaosBaseActivity implements View.OnClickList
             CharSequence time = DateFormat.format("h:mm aa", talkInfo.getLong(4));
             mTimeStart.setText(time);
 
-            mSpeakerEmail.setText(talkInfo.getString(5));
+            String email = talkInfo.getString(5);
+            mSpeakerEmail.setText(email);
             mSpeakerEmail.setOnClickListener(this);
+
+            mSpeakerAvatar.setAvatar(email);
 
             String twitter = talkInfo.getString(6);
             if(!twitter.startsWith("@")) {
