@@ -12,7 +12,8 @@ import android.graphics.Typeface;
  */
 public class TypefaceUtils {
     public static Typeface getNormalFont(Context context) {
-        String ttf = "fonts/ShadowsIntoLightTwo-Regular.ttf";
+        // String ttf = "fonts/ShadowsIntoLightTwo-Regular.ttf";
+        String ttf = "fonts/TulpenOne-Regular.ttf";
         return Typeface.createFromAsset(context.getAssets(), ttf);
     }
 

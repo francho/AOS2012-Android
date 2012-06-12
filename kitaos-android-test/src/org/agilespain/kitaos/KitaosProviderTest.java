@@ -109,37 +109,49 @@ public class KitaosProviderTest extends ProviderTestCase2<KitaosProvider> {
 
         int id = 123;
         String title = "title";
+        String description="description";
         String date = "2012-05-23 10:30";
         double duration = 2;
         String room = "room";
         String speaker = "speaker";
+        String speaker_email = "em@ail.com";
+        String speaker_twitter = "cocoliso";
 
         values.put(KitaosContract.Talks._ID, id);
         values.put(KitaosContract.Talks.TITLE, title);
+        values.put(KitaosContract.Talks.DESCRIPTION, description);
         values.put(KitaosContract.Talks.START_DATE, date);
         values.put(KitaosContract.Talks.END_DATE, duration);
         values.put(KitaosContract.Talks.ROOM, room);
         values.put(KitaosContract.Talks.SPEAKER, speaker);
+        values.put(KitaosContract.Talks.SPEAKER_TWITTER, speaker_twitter);
+        values.put(KitaosContract.Talks.SPEAKER_EMAIL, speaker_email);
 
         mProvider.insert(KitaosContract.Talks.uri(),values);
 
         String[] projection = {
                 KitaosContract.Talks._ID,
                 KitaosContract.Talks.TITLE,
+                KitaosContract.Talks.DESCRIPTION,
                 KitaosContract.Talks.START_DATE,
                 KitaosContract.Talks.END_DATE,
                 KitaosContract.Talks.ROOM,
                 KitaosContract.Talks.SPEAKER,
+                KitaosContract.Talks.SPEAKER_TWITTER,
+                KitaosContract.Talks.SPEAKER_EMAIL,
         };
         Cursor cursor = mProvider.query(KitaosContract.Talks.uri(id),projection,null,null,null);
         cursor.moveToFirst();
         
         assertEquals(id, cursor.getInt(0));
         assertEquals(title, cursor.getString(1));
-        assertEquals(date, cursor.getString(2));
-        assertEquals(duration, cursor.getDouble(3));
-        assertEquals(room, cursor.getString(4));
-        assertEquals(speaker, cursor.getString(5));
+        assertEquals(description, cursor.getString(2));
+        assertEquals(date, cursor.getString(3));
+        assertEquals(duration, cursor.getDouble(4));
+        assertEquals(room, cursor.getString(5));
+        assertEquals(speaker, cursor.getString(6));
+        assertEquals(speaker_twitter, cursor.getString(7));
+        assertEquals(speaker_email, cursor.getString(8));
 
         cursor.close();
         

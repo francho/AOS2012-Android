@@ -21,19 +21,14 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
 import org.agilespain.kitaos.R;
 import org.agilespain.kitaos.provider.KitaosContract;
 
-import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -56,18 +51,26 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
         setTextColor(Color.BLACK);
         setPostitTypeface();
 
-        Random random = new Random();
+        initRotation(title.length());
 
-        rotation = random.nextInt(5) * (random.nextBoolean()?-1:1);
-        
-        setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL | Gravity.FILL_VERTICAL);
+        setMaxLines(4);
+        setGravity(Gravity.CENTER);
 
-        setMaxLines(2);
         setEllipsize(TextUtils.TruncateAt.END);
 
         this._id = blockId;
         setOnClickListener(this);
     }
+
+    /**
+     * Rotate the text to simulate handmade writing
+     * @param length
+     */
+    protected void initRotation(int length) {
+        //Random random = new Random();
+        rotation = (length % 5) * (length>10?-1:1);
+    }
+
 
     @Override
     protected void onDraw(Canvas c) {

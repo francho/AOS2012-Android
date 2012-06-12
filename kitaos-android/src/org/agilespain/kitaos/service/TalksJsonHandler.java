@@ -74,7 +74,11 @@ public class TalksJsonHandler extends JsonHandler {
             builder = ContentProviderOperation.newInsert(Talks.uri());
             builder.withValue(Talks._ID, id);
             builder.withValue(Talks.TITLE, curTalk.getString(TalksJson.TITLE).trim());
-            builder.withValue(Talks.DESCRIPTION, curTalk.getString(TalksJson.DESCRIPTION).trim());
+
+            if(curTalk.has(Talks.DESCRIPTION)) {
+                builder.withValue(Talks.DESCRIPTION, curTalk.getString(TalksJson.DESCRIPTION).trim());
+            }
+
             builder.withValue(Talks.ROOM, curTalk.getJSONObject(TalksJson.ROOM).getString(TalksJson.NAME).trim());
 
             String date = curTalk.getString(TalksJson.DATE).trim() + " " + normalizeTime(curTalk.getString(TalksJson.HOUR)) ;
