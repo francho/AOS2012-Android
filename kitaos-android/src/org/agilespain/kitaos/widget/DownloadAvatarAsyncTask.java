@@ -15,7 +15,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class DownloadAvatarAsyncTask extends AsyncTask<String, Void, String> {
-        private Context mContext;
+        private final Context mContext;
         private ContentResolver mContentResolver;
 
         /**

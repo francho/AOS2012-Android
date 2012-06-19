@@ -31,24 +31,20 @@ import org.agilespain.kitaos.R;
  */
 public class BlockView extends Button {
     private final String mBlockId;
-    private final String mTitle;
     private final long mStartTime;
     private final long mEndTime;
-    private final boolean mContainsStarred;
     private final int mColumn;
 
-    public BlockView(Context context, String blockId, String title, long startTime,
-            long endTime, boolean containsStarred, int column) {
+    protected BlockView(Context context, String blockId, String title, long startTime,
+                        long endTime, boolean containsStarred, int column) {
         super(context);
 
         mBlockId = blockId;
-        mTitle = title;
         mStartTime = startTime;
         mEndTime = endTime;
-        mContainsStarred = containsStarred;
         mColumn = column;
 
-        setText(mTitle);
+        setText(title);
 
         // TODO: turn into color state list with layers?
         int textColor = -1;
@@ -74,7 +70,7 @@ public class BlockView extends Button {
         LayerDrawable buttonDrawable = (LayerDrawable)
                 context.getResources().getDrawable(R.drawable.btn_block);
         buttonDrawable.getDrawable(0).setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
-        buttonDrawable.getDrawable(1).setAlpha(mContainsStarred ? 255 : 0);
+        buttonDrawable.getDrawable(1).setAlpha(containsStarred ? 255 : 0);
 
         setTextColor(textColor);
         setBackgroundDrawable(buttonDrawable);

@@ -33,7 +33,7 @@ import android.content.ContentResolver;
  * Executes an {@link org.apache.http.client.methods.HttpUriRequest} and passes the result as an
  * {@link org.json} to the given {@link JsonHandler}.
  */
-public class RemoteExecutor {
+class RemoteExecutor {
     private final HttpClient mHttpClient;
     private final ContentResolver mResolver;
 
@@ -51,7 +51,7 @@ public class RemoteExecutor {
         execute(request, handler);
     }
 
-    public void execute(HttpUriRequest request, JsonHandler handler) throws HandlerException {
+    void execute(HttpUriRequest request, JsonHandler handler) throws HandlerException {
         try {
             final HttpResponse resp = mHttpClient.execute(request);
             final int status = resp.getStatusLine().getStatusCode();

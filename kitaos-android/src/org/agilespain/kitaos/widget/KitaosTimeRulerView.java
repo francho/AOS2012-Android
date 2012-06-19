@@ -48,7 +48,7 @@ public class KitaosTimeRulerView extends View {
     private int mDividerColor = Color.LTGRAY;
     private int mStartHour = 0;
     private int mEndHour = 23;
-    private Typeface mTypeface;
+    private final Typeface mTypeface;
 
 
     public KitaosTimeRulerView(Context context) {
@@ -112,8 +112,8 @@ public class KitaosTimeRulerView extends View {
                 resolveSize(height, heightMeasureSpec));
     }
 
-    private Paint mDividerPaint = new Paint();
-    private Paint mLabelPaint = new Paint();
+    private final Paint mDividerPaint = new Paint();
+    private final Paint mLabelPaint = new Paint();
 
     @Override
     protected synchronized void onDraw(Canvas canvas) {

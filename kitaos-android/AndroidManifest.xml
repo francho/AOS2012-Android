@@ -37,7 +37,7 @@
         </activity>
 
 
-        <service android:name=".service.SyncService">
+        <service android:name=".service.SyncService" android:exported="false">
             <intent-filter>
                 <action android:name="kitaos.intent.action.SYNC"/>
                 <category android:name="android.intent.category.DEFAULT"/>

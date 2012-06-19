@@ -32,7 +32,6 @@ public class ViewPagerTabsAdapter extends FragmentPagerAdapter
     private final TabHost mTabHost;
     private final ViewPager mViewPager;
     private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
-    private final FragmentActivity mActivity;
 
     static final class TabInfo {
         private final String tag;
@@ -70,14 +69,13 @@ public class ViewPagerTabsAdapter extends FragmentPagerAdapter
         mTabHost.setOnTabChangedListener(this);
         mViewPager.setAdapter(this);
         mViewPager.setOnPageChangeListener(this);
-        mActivity = activity;
     }
 
-    public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
+    public void addTab(TabHost.TabSpec tabSpec, Class<?> clss) {
         tabSpec.setContent(new DummyTabFactory(mContext));
         String tag = tabSpec.getTag();
 
-        TabInfo info = new TabInfo(tag, clss, args);
+        TabInfo info = new TabInfo(tag, clss, null);
         mTabs.add(info);
         mTabHost.addTab(tabSpec);
         notifyDataSetChanged();
@@ -91,8 +89,7 @@ public class ViewPagerTabsAdapter extends FragmentPagerAdapter
     @Override
     public Fragment getItem(int position) {
         final TabInfo info = mTabs.get(position);
-        final Fragment fragment = Fragment.instantiate(mContext, info.clss.getName(), info.args);
-        return fragment;
+        return Fragment.instantiate(mContext, info.clss.getName(), info.args);
     }
 
     @Override

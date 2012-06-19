@@ -42,17 +42,17 @@ import java.util.Formatter;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class UIUtils {
+class UIUtils {
 
     /**
      * Time zone to use when formatting all session times. To always use the
      * phone local time, use {@link java.util.TimeZone#getDefault()}.
      */
-    public static TimeZone CONFERENCE_TIME_ZONE = TimeZone.getTimeZone("America/Los_Angeles");
+    private static final TimeZone CONFERENCE_TIME_ZONE = TimeZone.getTimeZone("America/Los_Angeles");
 
     public static final long CONFERENCE_START_MILLIS = ParserUtils.parseTime(
             "2010-05-19T09:00:00.000-07:00");
-    public static final long CONFERENCE_END_MILLIS = ParserUtils.parseTime(
+    private static final long CONFERENCE_END_MILLIS = ParserUtils.parseTime(
             "2010-05-20T17:30:00.000-07:00");
 
     public static final Uri CONFERENCE_URL = Uri.parse("http://code.google.com/events/io/2010/");
@@ -64,11 +64,11 @@ public class UIUtils {
     private static final int BRIGHTNESS_THRESHOLD = 150;
 
     /** {@link StringBuilder} used for formatting time block. */
-    private static StringBuilder sBuilder = new StringBuilder(50);
+    private static final StringBuilder sBuilder = new StringBuilder(50);
     /** {@link java.util.Formatter} used for formatting time block. */
     private static Formatter sFormatter = new Formatter(sBuilder, Locale.getDefault());
 
-    private static StyleSpan sBoldSpan = new StyleSpan(Typeface.BOLD);
+    private static final StyleSpan sBoldSpan = new StyleSpan(Typeface.BOLD);
 
     public static void setTitleBarColor(View titleBarView, int color) {
         final ViewGroup titleBar = (ViewGroup) titleBarView;
@@ -99,7 +99,7 @@ public class UIUtils {
                             final ImageButton childButton = (ImageButton) child;
                             if (childButton.getDrawable() != null &&
                                 childButton.getDrawable() instanceof LevelListDrawable) {
-                                ((LevelListDrawable) childButton.getDrawable()).setLevel(1);
+                                childButton.getDrawable().setLevel(1);
                             }
                         }
                     }
@@ -109,37 +109,28 @@ public class UIUtils {
     }
 
     /**
-     * Invoke "home" action, returning to {@link HomeActivity}.
-     */
-    public static void goHome(Context context) {
-////        final Intent intent = new Intent(context, HomeActiv�ity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        context.startActivity(intent);
-    }
-
-    /**
      * Invoke "search" action, triggering a default search.
      */
     public static void goSearch(Activity activity) {
         activity.startSearch(null, false, Bundle.EMPTY, false);
     }
 
-    /**
-     * Format and return the given {@link Blocks} and {@link Rooms} values using
-     * {@link #CONFERENCE_TIME_ZONE}.
-     */
-    public static String formatSessionSubtitle(long blockStart, long blockEnd,
-            String roomName, Context context) {
-        TimeZone.setDefault(CONFERENCE_TIME_ZONE);
-
-        // NOTE: There is an efficient version of formatDateRange in Eclair and
-        // beyond that allows you to recycle a StringBuilder.
-        final CharSequence timeString = DateUtils.formatDateRange(context,
-                blockStart, blockEnd, TIME_FLAGS);
-
-        return "TODO subtitulo";
-//        return context.getString(R.string.session_subtitle, timeString, roomName);
-    }
+//    /**
+//     * Format and return the given {@link Blocks} and {@link Rooms} values using
+//     * {@link #CONFERENCE_TIME_ZONE}.
+//     */
+//    public static String formatSessionSubtitle(long blockStart, long blockEnd,
+//            String roomName, Context context) {
+//        TimeZone.setDefault(CONFERENCE_TIME_ZONE);
+//
+//        // NOTE: There is an efficient version of formatDateRange in Eclair and
+//        // beyond that allows you to recycle a StringBuilder.
+//        final CharSequence timeString = DateUtils.formatDateRange(context,
+//                blockStart, blockEnd, TIME_FLAGS);
+//
+//        return "TODO subtitulo";
+////        return context.getString(R.string.session_subtitle, timeString, roomName);
+//    }
 
     /**
      * Populate the given {@link android.widget.TextView} with the requested text, formatting

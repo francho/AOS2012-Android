@@ -10,9 +10,7 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 import org.agilespain.kitaos.R;
 import org.agilespain.kitaos.provider.KitaosContract;
@@ -20,17 +18,11 @@ import org.agilespain.kitaos.widget.TalksByHourTreeAdapter;
 import org.agilespain.kitaos.widget.TypefaceUtils;
 
 /**
- * Created by IntelliJ IDEA.
- * User: francho
- * Date: 23/03/12
- * Time: 18:51
- * To change this template use File | Settings | File Templates.
+ * @author francho (http://francho.org)
  */
 public class FragmentTalks extends android.support.v4.app.Fragment implements TalksByHourTreeAdapter.ViewBinder, ExpandableListView.OnChildClickListener {
 
     private TalksByHourTreeAdapter mAdapter=null;
-    private Typeface mTitleFont;
-    private Typeface mNormalFont;
     private ExpandableListView mTalksList;
 
     /**
@@ -42,8 +34,8 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Ta
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mTitleFont = TypefaceUtils.getTitleFont(this.getActivity());
-        mNormalFont = TypefaceUtils.getNormalFont(this.getActivity());
+        Typeface mTitleFont = TypefaceUtils.getTitleFont(this.getActivity());
+        Typeface mNormalFont = TypefaceUtils.getNormalFont(this.getActivity());
     }
 
     /**
@@ -109,10 +101,9 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Ta
                 KitaosContract.Talks.START_DATE + " ASC");
 
         TalksByHourTreeAdapter adapter = new TalksByHourTreeAdapter(context,
-                cursor, R.layout.expandable_list_group_title,
+                cursor,
                 new String[]{KitaosContract.Talks.START_DATE}, // Name for group layouts
                 new int[]{android.R.id.text1},
-                R.layout.expandable_list_item_talk,
                 new String[]{
                         KitaosContract.Talks.TITLE,
                         KitaosContract.Talks.ROOM,

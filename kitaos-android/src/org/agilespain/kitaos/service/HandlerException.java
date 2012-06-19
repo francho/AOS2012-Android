@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * Handler Exception
  */
-public class HandlerException extends IOException {
+class HandlerException extends IOException {
     public HandlerException(String message) {
         super(message);
     }

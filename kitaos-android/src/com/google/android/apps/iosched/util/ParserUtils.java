@@ -45,7 +45,7 @@ public class ParserUtils {
     /** Used to split a comma-separated string. */
     private static final Pattern sCommaPattern = Pattern.compile("\\s*,\\s*");
 
-    private static Time sTime = new Time();
+    private static final Time sTime = new Time();
     private static XmlPullParserFactory sFactory;
 
     /**
@@ -60,7 +60,7 @@ public class ParserUtils {
      * Sanitize the given string to be {@link android.net.Uri} safe for building
      * {@link android.content.ContentProvider} paths.
      */
-    public static String sanitizeId(String input, boolean stripParen) {
+    private static String sanitizeId(String input, boolean stripParen) {
         if (input == null) return null;
         if (stripParen) {
             // Strip out all parenthetical statements when requested.

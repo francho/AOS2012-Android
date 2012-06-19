@@ -17,23 +17,12 @@ package org.agilespain.kitaos;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.ResultReceiver;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import org.agilespain.kitaos.app.KitaosIntent;
-import org.agilespain.kitaos.service.SyncService;
 import org.agilespain.kitaos.ui.FragmentPanel;
 import org.agilespain.kitaos.ui.FragmentTalks;
 import org.agilespain.kitaos.widget.ViewPagerTabsAdapter;
@@ -60,10 +49,10 @@ public class TalksActivity extends KitaosBaseActivity {
         ViewPagerTabsAdapter tabsAdapter = new ViewPagerTabsAdapter(this, tabHost, viewPager);
         final TabHost.TabSpec tab1 = createTabSpec(tabHost, TAG_PANEL,
                 R.string.tab_panel);
-        tabsAdapter.addTab(tab1, FragmentPanel.class, null);
+        tabsAdapter.addTab(tab1, FragmentPanel.class);
         final TabHost.TabSpec tab2 = createTabSpec(tabHost, TAG_TALKS,
                 R.string.tab_talks);
-        tabsAdapter.addTab(tab2, FragmentTalks.class, null);
+        tabsAdapter.addTab(tab2, FragmentTalks.class);
     }
 
     private TabHost.TabSpec createTabSpec(TabHost tabHost, String tag, int labelId) {

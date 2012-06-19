@@ -37,8 +37,8 @@ import java.util.ArrayList;
 public abstract class JsonHandler {
     private final String mAuthority;
 
-    public JsonHandler(String authority) {
-        mAuthority = authority;
+    JsonHandler() {
+        mAuthority = org.agilespain.kitaos.provider.KitaosContract.CONTENT_AUTHORITY;
     }
 
     /**

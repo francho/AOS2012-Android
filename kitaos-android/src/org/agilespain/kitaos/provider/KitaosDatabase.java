@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Db helper
  */
 class KitaosDatabase extends SQLiteOpenHelper {
-	public static final String DATABASE_NAME = "kitaos.db";
-    public static final int DATABASE_VERSION = 5;
+	private static final String DATABASE_NAME = "kitaos.db";
+    private static final int DATABASE_VERSION = 5;
 	
 	/**
 	 * config the database

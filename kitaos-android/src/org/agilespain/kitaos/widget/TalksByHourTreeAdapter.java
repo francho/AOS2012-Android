@@ -9,17 +9,17 @@ import org.agilespain.kitaos.provider.KitaosContract;
 
 public class TalksByHourTreeAdapter extends SimpleCursorTreeAdapter {
 
-    private ContentResolver mContentResover;
+    private final ContentResolver mContentResover;
 
     // Note that the constructor does not take a Cursor. This is done to avoid querying the
     // database on the main thread.
     public TalksByHourTreeAdapter(Context context, Cursor cursor,
-                                  int groupLayout, String[] groupFrom, int[] groupTo,
-                                  int childLayout, String[] childrenFrom, int[] childrenTo) {
+                                  String[] groupFrom, int[] groupTo,
+                                  String[] childrenFrom, int[] childrenTo) {
 
         super(context, cursor,
-                groupLayout, groupFrom, groupTo,
-                childLayout, childrenFrom, childrenTo);
+                org.agilespain.kitaos.R.layout.expandable_list_group_title, groupFrom, groupTo,
+                org.agilespain.kitaos.R.layout.expandable_list_item_talk, childrenFrom, childrenTo);
 
         mContentResover = context.getContentResolver();
     }

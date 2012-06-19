@@ -148,7 +148,7 @@ public class ScheduleContract {
         String NOTE_CONTENT = "note_content";
     }
 
-    public static final String CONTENT_AUTHORITY = "com.google.android.apps.iosched";
+    private static final String CONTENT_AUTHORITY = "com.google.android.apps.iosched";
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
@@ -541,7 +541,7 @@ public class ScheduleContract {
         }
     }
 
-    public static class SearchSuggest {
+    private static class SearchSuggest {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_SEARCH_SUGGEST).build();
 

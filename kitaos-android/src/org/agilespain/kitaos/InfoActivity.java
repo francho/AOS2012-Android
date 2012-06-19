@@ -16,20 +16,13 @@
 package org.agilespain.kitaos;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TabHost;
-import android.widget.TextView;
 import com.actionbarsherlock.view.MenuItem;
-import org.agilespain.kitaos.ui.FragmentPanel;
-import org.agilespain.kitaos.ui.FragmentTalks;
-import org.agilespain.kitaos.widget.ViewPagerTabsAdapter;
 
 public class InfoActivity extends KitaosBaseActivity {
     private WebView mWebview;
@@ -48,6 +41,10 @@ public class InfoActivity extends KitaosBaseActivity {
     private void initWebview() {
         mWebview = (WebView) findViewById(R.id.webview);
         mWebview.setWebViewClient(new KitaosWebViewClient());
+        final WebSettings settings = mWebview.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setCacheMode(WebSettings.LOAD_NORMAL);
     }
 
     @Override
@@ -55,8 +52,6 @@ public class InfoActivity extends KitaosBaseActivity {
         super.onStart();
 
         Uri url = getIntent().getData();
-
-
         mWebview.loadUrl(url.toString());
     }
 
@@ -73,6 +68,7 @@ public class InfoActivity extends KitaosBaseActivity {
 
 
     private class KitaosWebViewClient extends WebViewClient {
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 

@@ -11,11 +11,10 @@ import org.agilespain.kitaos.app.KitaosIntent;
 import org.agilespain.kitaos.service.SyncService;
 
 /**
- * @author francho
- * @see http://francho.org
+ *
  *
  */
-public class KitaosBaseActivity extends SherlockFragmentActivity {
+class KitaosBaseActivity extends SherlockFragmentActivity {
 
     private MenuItem mItemReload = null;
 
@@ -38,7 +37,7 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
         }
     }
 
-    protected void setKitaosProgressbarVisible(boolean visible) {
+    void setKitaosProgressbarVisible(boolean visible) {
         if(mItemReload==null) {
             return;
         }
@@ -54,7 +53,7 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        syncData();
+        syncData(false);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
                 goHome();
                 return true;
             case R.id.menu_item_reload:
-                syncData();
+                syncData(true);
                 return true;
             case R.id.menu_item_info:
                 showInfo();
@@ -83,21 +82,22 @@ public class KitaosBaseActivity extends SherlockFragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    protected void goHome() {
+    void goHome() {
         PackageManager pm = getPackageManager();
         Intent intent = pm.getLaunchIntentForPackage(getApplicationInfo().packageName);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    protected void syncData() {
+    void syncData(boolean force) {
         Intent intent = new Intent(KitaosIntent.ACTION_SYNC);
         ResultReceiver receiver = new SyncResultReceiver();
-        intent.putExtra(SyncService.EXTRA_STATUS_RECEIVER, (Parcelable) receiver);
+        intent.putExtra(SyncService.EXTRA_STATUS_RECEIVER, receiver);
+        intent.putExtra(SyncService.EXTRA_FORCE_RELOAD, force);
         startService(intent);
     }
 
-    protected void showInfo() {
+    void showInfo() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setPackage(getApplicationInfo().packageName);
         String url = getString(R.string.url_info);

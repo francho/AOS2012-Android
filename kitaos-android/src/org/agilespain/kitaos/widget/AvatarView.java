@@ -76,6 +76,7 @@ public class AvatarView extends ImageView {
             Bitmap bm = BitmapFactory.decodeFile(cacheFile) ;
             setImageBitmap(bm);
         } catch(Exception e) {
+            e.printStackTrace();
             setImageResource(R.drawable.unknown_photo);
         }
     }

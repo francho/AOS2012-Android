@@ -29,8 +29,6 @@ import android.view.View;
 import org.agilespain.kitaos.R;
 import org.agilespain.kitaos.provider.KitaosContract;
 
-import java.util.Random;
-
 /**
  * Custom view that represents a {@link com.google.android.apps.iosched.provider.ScheduleContract.Blocks#BLOCK_ID} instance, including its
  * title and time span that it occupies. Usually organized automatically by
@@ -66,7 +64,7 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
      * Rotate the text to simulate handmade writing
      * @param length
      */
-    protected void initRotation(int length) {
+    void initRotation(int length) {
         //Random random = new Random();
         rotation = (length % 5) * (length>10?-1:1);
     }

@@ -61,8 +61,8 @@ import android.util.Log;
 public class SyncService extends IntentService {
     private static final String TAG = "SyncService";
 
-    public static final String EXTRA_STATUS_RECEIVER =
-            "com.google.android.iosched.extra.STATUS_RECEIVER";
+    public static final String EXTRA_STATUS_RECEIVER = "aos.extra.STATUS_RECEIVER";
+    public static final String EXTRA_FORCE_RELOAD = "aos.extra.EXTRA_FORCE_RELOAD";
 
     public static final int STATUS_RUNNING = 0x1;
     public static final int STATUS_ERROR = 0x2;
@@ -109,6 +109,8 @@ public class SyncService extends IntentService {
                 Context.MODE_PRIVATE);
         final int localVersion = prefs.getInt(Prefs.LOCAL_VERSION, VERSION_NONE);
 
+        final boolean force = intent.getBooleanExtra(EXTRA_FORCE_RELOAD,false);
+
         try {
             // Bulk of sync work, performed by executing several fetches from
             // local and online sources.
@@ -117,32 +119,20 @@ public class SyncService extends IntentService {
             final boolean localParse = localVersion < VERSION_CURRENT;
             Log.d(TAG, "found localVersion=" + localVersion + " and VERSION_CURRENT="
                     + VERSION_CURRENT);
-            if (localParse) {
-                // Load static local data
-//                mLocalExecutor.execute(R.xml.blocks, new LocalBlocksHandler());
-//                mLocalExecutor.execute(R.xml.rooms, new LocalRoomsHandler());
-//                mLocalExecutor.execute(R.xml.tracks, new LocalTracksHandler());
-//                mLocalExecutor.execute(R.xml.search_suggest, new LocalSearchSuggestHandler());
-//                mLocalExecutor.execute(R.xml.sessions, new LocalSessionsHandler());
 
-                // Parse values from local cache first, since spreadsheet copy
-                // or network might be down.
-//                mLocalExecutor.execute(context, "cache-sessions.xml", new RemoteSessionsHandler());
-//                mLocalExecutor.execute(context, "cache-speakers.xml", new RemoteSpeakersHandler());
-//                mLocalExecutor.execute(context, "cache-vendors.xml", new RemoteVendorsHandler());
+            if (localParse || force) {
+                // Always hit remote spreadsheet for any updates
+                mRemoteExecutor
+                        .executeGet(getString(R.string.url_api_talks), new TalksJsonHandler());
 
+                downloadAvatars();
                 // Save local parsed version
                 prefs.edit().putInt(Prefs.LOCAL_VERSION, VERSION_CURRENT).commit();
             }
             Log.d(TAG, "local sync took " + (System.currentTimeMillis() - startLocal) + "ms");
 
-            // Always hit remote spreadsheet for any updates
+
             final long startRemote = System.currentTimeMillis();
-            mRemoteExecutor
-                    .executeGet(getString(R.string.url_api_talks), new TalksJsonHandler());
-
-            downloadAvatars();
-
             Log.d(TAG, "remote sync took " + (System.currentTimeMillis() - startRemote) + "ms");
 
         } catch (Exception e) {
@@ -179,7 +169,7 @@ public class SyncService extends IntentService {
      * Generate and return a {@link org.apache.http.client.HttpClient} configured for general use,
      * including setting an application-specific user-agent string.
      */
-    public static HttpClient getHttpClient(Context context) {
+    private static HttpClient getHttpClient(Context context) {
         final HttpParams params = new BasicHttpParams();
 
         // Use generous timeouts for slow mobile networks

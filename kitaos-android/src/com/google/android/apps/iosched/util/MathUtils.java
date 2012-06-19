@@ -19,7 +19,7 @@ package com.google.android.apps.iosched.util;
 /**
  * Math utility functions.
  */
-public final class MathUtils {
+final class MathUtils {
     private MathUtils() {}
 
     /**

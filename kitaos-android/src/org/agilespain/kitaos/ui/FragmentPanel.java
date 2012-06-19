@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,14 +26,11 @@ import org.agilespain.kitaos.widget.PostitView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
- * Created by IntelliJ IDEA.
- * User: francho
- * Date: 23/03/12
- * Time: 18:51
- * To change this template use File | Settings | File Templates.
+ * @author francho (http://francho.org)
  */
 public class FragmentPanel extends android.support.v4.app.Fragment {
 
@@ -45,8 +41,8 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
 
     // TODO: show blocks that don't fall into columns at the bottom
 
-    public static final String EXTRA_TIME_START = "com.google.android.iosched.extra.TIME_START";
-    public static final String EXTRA_TIME_END = "com.google.android.iosched.extra.TIME_END";
+    private static final String EXTRA_TIME_START = "com.google.android.iosched.extra.TIME_START";
+    private static final String EXTRA_TIME_END = "com.google.android.iosched.extra.TIME_END";
 
     private ScrollView mScrollView;
     private BlocksLayout mBlocks;
@@ -56,7 +52,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
     private long mTimeEnd = -1;
 
     private static final int DISABLED_BLOCK_ALPHA = 255;
-    private ContentObserver mContentObserver = new BlocksContentObserver();
+    private final ContentObserver mContentObserver = new BlocksContentObserver();
 
     class BlocksContentObserver extends  ContentObserver {
         public BlocksContentObserver() {
@@ -70,9 +66,9 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         }
     }
 
-    public static final int MSG_UPDATE = 99;
+    private static final int MSG_UPDATE = 99;
 
-    Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what== MSG_UPDATE) {
@@ -88,8 +84,8 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.blocks_content, container, false);
 
-        mTimeStart = getActivity().getIntent().getLongExtra(EXTRA_TIME_START, mTimeStart);
-        mTimeEnd = getActivity().getIntent().getLongExtra(EXTRA_TIME_END, mTimeEnd);
+        mTimeStart = ParserUtils.parseTime("2012-06-23T00:00:00");
+        mTimeEnd = ParserUtils.parseTime("2012-06-23T23:00:00");
 
         mScrollView = (ScrollView) v.findViewById(R.id.blocks_scroll);
         mBlocks = (BlocksLayout) v.findViewById(R.id.blocks);
@@ -110,11 +106,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
 
         updateTalks();
 
-        mNowView.post(new Runnable() {
-            public void run() {
-                updateNowView(true);
-            }
-        });
+
     }
 
 // private static final HashMap<String, Integer> sTypeColumnMap = buildTypeColumnMap();
@@ -142,9 +134,8 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         }
     }
 
-    protected void updateTalks() {
+    void updateTalks() {
         mBlocks.removeAllBlocks();
-
         mBlocks.setNumberOfColumns(getNumberOfRooms());
 
 
@@ -173,8 +164,6 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
 
                 int column = salas.indexOf(sala);
 
-                Log.d("BLOCKS", salas.toString());
-                Log.d("BLOCKS", "sala:"+sala+" column:" + column + " start:" + DateFormat.format("yyyy-MM-dd h:mm", new Date(start)) + " end:" + end + " " + title);
                 if(column < 0) {
                     salas.add(sala);
                     column = salas.indexOf(sala);
@@ -182,7 +171,6 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
 
                 boolean containsStarred=false;
 
-                Log.d("BLOCKS", "column:" + column + " start:" + start + " end:" + end + " " + title);
 
                 final PostitView postit = new PostitView(getActivity(), blockId, title, start, end, containsStarred, column);
                 mBlocks.addBlock(postit);
@@ -191,6 +179,11 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
             cursor.close();
         }
 
+        mNowView.post(new Runnable() {
+            public void run() {
+                updateNowView(true);
+            }
+        });
     }
 
 
@@ -254,7 +247,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         mBlocks.requestLayout();
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "onReceive time update");

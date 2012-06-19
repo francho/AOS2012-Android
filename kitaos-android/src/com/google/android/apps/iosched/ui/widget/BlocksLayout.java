@@ -134,7 +134,7 @@ public class BlocksLayout extends ViewGroup {
         final long now = System.currentTimeMillis();
 
         final int top = rulerView.getTimeVerticalOffset(now);
-        final int bottom = top + nowView.getMeasuredHeight();
+        final int bottom = rulerView.getTimeVerticalOffset(now + 60 * 60 * 1000);
         final int left = 0;
         final int right = getWidth();
 

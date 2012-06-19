@@ -4,9 +4,7 @@ package org.agilespain.kitaos.service;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderOperation.Builder;
 import android.content.ContentResolver;
-import org.agilespain.kitaos.provider.KitaosContract;
 import org.agilespain.kitaos.provider.KitaosContract.Talks;
-import org.agilespain.kitaos.widget.DownloadAvatarAsyncTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,10 +21,10 @@ import java.util.Locale;
  */
 public class TalksJsonHandler extends JsonHandler {
 
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+    private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
 	public TalksJsonHandler() {
-		super(KitaosContract.CONTENT_AUTHORITY);
+		super();
 	}
 
 	// private static final String TAG = "TalksJsonHandler";
@@ -117,7 +115,7 @@ public class TalksJsonHandler extends JsonHandler {
         }
     }
 
-    public long getEndMillis(long millisStart, int duration) {
+    long getEndMillis(long millisStart, int duration) {
         return (duration * 60 * 60 * 1000) + millisStart;
     }
     

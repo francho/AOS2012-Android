@@ -37,7 +37,7 @@ public class KitaosContract {
     }
 
     public static final class Talks implements BaseColumns {
-        protected static final Uri CONTENT_URI =
+        static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_TALKS).build();
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/org.agilespain.kitaos.talks";
         public static final String ITEM_CONTENT_TYPE = "vnd.android.cursor.item/org.agilespain.kitaos.talks";
@@ -83,7 +83,7 @@ public class KitaosContract {
     
     
     public static final class Speakers implements BaseColumns {
-        protected static final Uri CONTENT_URI =
+        static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_SPEAKERS).build();
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/org.agilespain.kitaos.speakers";
         public static final String ITEM_CONTENT_TYPE = "vnd.android.cursor.item/org.agilespain.kitaos.speakers";
