@@ -3,6 +3,7 @@
 <resources>
     <style name="Theme.KitAOS" parent="Theme.Sherlock.Light">
         <item name="kitaosTabViewStyle">@style/KitAOS.TabView</item>
+        <item name="android:buttonStyle">@style/KitAOS.Button</item>
     </style>
 
 
@@ -14,5 +15,10 @@
         <item name="android:paddingRight">5dp</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
+
+    <style name="KitAOS.Button" parent="android:Widget.Button">
+        <item name="android:textSize">@dimen/kitaos_postit_text</item>
+
     </style>
 </resources>

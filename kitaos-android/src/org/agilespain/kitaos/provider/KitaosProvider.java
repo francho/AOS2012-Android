@@ -50,6 +50,7 @@ public class KitaosProvider extends ContentProvider {
      * Configuramos las urls disponibles
      */
     private static final UriMatcher sUriMatcher;
+
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -108,7 +109,7 @@ public class KitaosProvider extends ContentProvider {
                 qb.setTables(KitaosDatabase.Tables.TALKS);
                 projection = new String[]{KitaosContract.Talks.ROOM};
                 qb.setDistinct(true);
-                break  ;
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -195,7 +196,7 @@ public class KitaosProvider extends ContentProvider {
             case SPEAKERS_ID:
                 count = db.delete(KitaosDatabase.Tables.SPEAKERS,
                         KitaosContract.Speakers._ID + "=" + uri.getPathSegments().get(1)
-                        + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+                                + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
                 break;
             case SPEAKERS:
                 count = db.delete(KitaosDatabase.Tables.SPEAKERS, where, whereArgs);
@@ -206,7 +207,7 @@ public class KitaosProvider extends ContentProvider {
             case TALKS_ID:
                 count = db.delete(KitaosDatabase.Tables.TALKS,
                         KitaosContract.Talks._ID + "=" + uri.getPathSegments().get(1)
-                        + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+                                + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -227,7 +228,7 @@ public class KitaosProvider extends ContentProvider {
             case SPEAKERS_ID:
                 count = db.update(KitaosDatabase.Tables.SPEAKERS, values,
                         KitaosContract.Speakers._ID + "=" + uri.getPathSegments().get(1)
-                        + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+                                + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
                 break;
             case SPEAKERS:
                 count = db.update(KitaosDatabase.Tables.SPEAKERS, values, where, whereArgs);
@@ -238,7 +239,7 @@ public class KitaosProvider extends ContentProvider {
             case TALKS_ID:
                 count = db.update(KitaosDatabase.Tables.TALKS, values,
                         KitaosContract.Talks._ID + "=" + uri.getPathSegments().get(1)
-                        + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
+                                + (!TextUtils.isEmpty(where) ? " AND (" + where + ')' : ""), whereArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);

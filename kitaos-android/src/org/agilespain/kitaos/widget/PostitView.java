@@ -43,7 +43,7 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
     public PostitView(Context context, long blockId, String title, long startTime,
                       long endTime, boolean containsStarred, int column) {
 
-        super(context, ""+blockId, title, startTime, endTime, containsStarred, column);
+        super(context, "" + blockId, title, startTime, endTime, containsStarred, column);
 
         setPostitBackground(containsStarred);
         setTextColor(Color.BLACK);
@@ -62,11 +62,12 @@ public class PostitView extends com.google.android.apps.iosched.ui.widget.BlockV
 
     /**
      * Rotate the text to simulate handmade writing
+     *
      * @param length
      */
     void initRotation(int length) {
         //Random random = new Random();
-        rotation = (length % 5) * (length>10?-1:1);
+        rotation = (length % 5) * (length > 10 ? -1 : 1);
     }
 
 

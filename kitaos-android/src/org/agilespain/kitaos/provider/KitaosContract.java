@@ -60,18 +60,17 @@ public class KitaosContract {
          * Build {@link android.net.Uri} that references any {@link Talks} associated
          * with the requested {@link #_ID}.
          *
-         *
          * @param id talk id
          * @return the uri with the id
          */
         public static Uri uri(long id) {
-            return CONTENT_URI.buildUpon().appendPath(""+id).build();
+            return CONTENT_URI.buildUpon().appendPath("" + id).build();
         }
 
         public static Uri uri() {
             return CONTENT_URI;
         }
-        
+
         public static Uri hoursUri() {
             return BASE_CONTENT_URI.buildUpon().appendPath(PATH_TALKS_HOURS).build();
         }
@@ -80,8 +79,8 @@ public class KitaosContract {
             return BASE_CONTENT_URI.buildUpon().appendPath(PATH_ROOMS).build();
         }
     }
-    
-    
+
+
     public static final class Speakers implements BaseColumns {
         static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_SPEAKERS).build();
@@ -96,20 +95,18 @@ public class KitaosContract {
         public static final String EMAIL = "email";
         public static final String TWITTER = "twitter";
         public static final String BLOG = "blog";
-      
 
 
-        
         public static Uri uri(int id) {
-            return CONTENT_URI.buildUpon().appendPath(""+id).build();
+            return CONTENT_URI.buildUpon().appendPath("" + id).build();
         }
 
         public static Uri uri() {
             return CONTENT_URI;
         }
-        
+
     }
-    
+
 }
 
 

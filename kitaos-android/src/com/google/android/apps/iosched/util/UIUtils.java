@@ -17,7 +17,6 @@
 package com.google.android.apps.iosched.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -34,8 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.google.android.apps.iosched.provider.ScheduleContract.Blocks;
-import com.google.android.apps.iosched.provider.ScheduleContract.Rooms;
 import org.agilespain.kitaos.R;
 
 import java.util.Formatter;
@@ -57,15 +54,21 @@ class UIUtils {
 
     public static final Uri CONFERENCE_URL = Uri.parse("http://code.google.com/events/io/2010/");
 
-    /** Flags used with {@link android.text.format.DateUtils#formatDateRange}. */
+    /**
+     * Flags used with {@link android.text.format.DateUtils#formatDateRange}.
+     */
     private static final int TIME_FLAGS = DateUtils.FORMAT_SHOW_TIME
             | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY;
 
     private static final int BRIGHTNESS_THRESHOLD = 150;
 
-    /** {@link StringBuilder} used for formatting time block. */
+    /**
+     * {@link StringBuilder} used for formatting time block.
+     */
     private static final StringBuilder sBuilder = new StringBuilder(50);
-    /** {@link java.util.Formatter} used for formatting time block. */
+    /**
+     * {@link java.util.Formatter} used for formatting time block.
+     */
     private static Formatter sFormatter = new Formatter(sBuilder, Locale.getDefault());
 
     private static final StyleSpan sBoldSpan = new StyleSpan(Typeface.BOLD);
@@ -81,8 +84,8 @@ class UIUtils {
          * http://en.wikipedia.org/wiki/HSV_color_space%23Lightness
          */
         int brColor = (30 * Color.red(color) +
-                       59 * Color.green(color) +
-                       11 * Color.blue(color)) / 100;
+                59 * Color.green(color) +
+                11 * Color.blue(color)) / 100;
         if (brColor > BRIGHTNESS_THRESHOLD) {
 //            ((TextView) titleBar.findViewById(R.id.title_text)).setTextColor(
 //                    titleBar.getContext().getResources().getColor(R.color.title_text_alt));
@@ -98,7 +101,7 @@ class UIUtils {
                         if (child instanceof ImageButton) {
                             final ImageButton childButton = (ImageButton) child;
                             if (childButton.getDrawable() != null &&
-                                childButton.getDrawable() instanceof LevelListDrawable) {
+                                    childButton.getDrawable() instanceof LevelListDrawable) {
                                 childButton.getDrawable().setLevel(1);
                             }
                         }
@@ -147,7 +150,7 @@ class UIUtils {
     }
 
     public static void setSessionTitleColor(long blockStart, long blockEnd, TextView title,
-            TextView subtitle) {
+                                            TextView subtitle) {
         long currentTimeMillis = System.currentTimeMillis();
         int colorId = android.R.color.primary_text_light;
         int subColorId = android.R.color.secondary_text_light;

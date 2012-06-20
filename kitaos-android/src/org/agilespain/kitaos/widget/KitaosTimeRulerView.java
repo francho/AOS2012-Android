@@ -135,7 +135,7 @@ public class KitaosTimeRulerView extends View {
         final FontMetricsInt metrics = labelPaint.getFontMetricsInt();
         final int labelHeight = Math.abs(metrics.ascent);
         //final int labelOffset = labelHeight + ((hourHeight - labelHeight) / 2);
-        final int labelOffset = labelHeight + ((hourHeight - labelHeight) );
+        final int labelOffset = labelHeight + ((hourHeight - labelHeight));
 
         final int right = getRight();
 
@@ -151,7 +151,7 @@ public class KitaosTimeRulerView extends View {
 
             // TODO: localize these labels better, including handling
             // 24-hour mode when set in framework.
-            final int hour = mStartHour + 1  + i;
+            final int hour = mStartHour + 1 + i;
             String label = hour + ":00";
 
             final float labelWidth = labelPaint.measureText(label);

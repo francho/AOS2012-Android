@@ -37,12 +37,16 @@ public class ParserUtils {
     public static final String BLOCK_TYPE_SESSION = "session";
     public static final String BLOCK_TYPE_OFFICE_HOURS = "officehours";
 
-    
-    /** Used to sanitize a string to be {@link android.net.Uri} safe. */
+
+    /**
+     * Used to sanitize a string to be {@link android.net.Uri} safe.
+     */
     private static final Pattern sSanitizePattern = Pattern.compile("[^a-z0-9-_]");
     private static final Pattern sParenPattern = Pattern.compile("\\(.*?\\)");
 
-    /** Used to split a comma-separated string. */
+    /**
+     * Used to split a comma-separated string.
+     */
     private static final Pattern sCommaPattern = Pattern.compile("\\s*,\\s*");
 
     private static final Time sTime = new Time();
@@ -99,5 +103,5 @@ public class ParserUtils {
         return sTime.toMillis(false);
     }
 
-    
+
 }

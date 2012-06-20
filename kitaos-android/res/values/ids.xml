@@ -15,29 +15,30 @@
     limitations under the License.
 -->
 <resources>
-    <item type="id" name="title_container" />
-    <item type="id" name="title_logo" />
-    <item type="id" name="title_text" />
+    <item type="id" name="title_container"/>
+    <item type="id" name="title_logo"/>
+    <item type="id" name="title_text"/>
 
-    <item type="id" name="dialog_discard_confirm" />
+    <item type="id" name="dialog_discard_confirm"/>
 
-    <item type="id" name="dialog_moderator" />
-    <item type="id" name="dialog_wave" />
+    <item type="id" name="dialog_moderator"/>
+    <item type="id" name="dialog_wave"/>
 
-    <item type="id" name="blocks_ruler" />
-    <item type="id" name="blocks_now" />
+    <item type="id" name="blocks_ruler"/>
+    <item type="id" name="blocks_now"/>
 
-    <item type="id" name="talk_title" />
-    <item type="id" name="talk_room" />
-    <item type="id" name="talk_speaker" />
-    <item type="id" name="talk_speaker_avatar" />
-    <item type="id" name="talk_speaker_twitter" />
-    <item type="id" name="talk_speaker_email" />
-    <item type="id" name="talk_description" />
-    <item type="id" name="talk_time_start" />
-    <item type="id" name="talk_time_end" />
+    <item type="id" name="talk_title"/>
+    <item type="id" name="talk_room"/>
+    <item type="id" name="talk_speaker"/>
+    <item type="id" name="talk_speaker_avatar"/>
+    <item type="id" name="talk_speaker_twitter"/>
+    <item type="id" name="talk_speaker_email"/>
+    <item type="id" name="talk_description"/>
+    <item type="id" name="talk_time_start"/>
+    <item type="id" name="talk_time_end"/>
 
-    <item type="id" name="menu_item_reload" />
-    <item type="id" name="menu_item_talks" />
-    <item type="id" name="menu_item_info" />
+    <item type="id" name="menu_item_reload"/>
+    <item type="id" name="menu_item_talks"/>
+    <item type="id" name="menu_item_info"/>
+    <item type="id" name="menu_item_map"/>
 </resources>

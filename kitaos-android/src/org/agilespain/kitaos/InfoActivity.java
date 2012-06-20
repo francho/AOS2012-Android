@@ -34,6 +34,7 @@ public class InfoActivity extends KitaosBaseActivity {
         setSupportProgressBarIndeterminateVisibility(false);
 
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initWebview();
     }

@@ -55,7 +55,9 @@ public class BlocksLayout extends ViewGroup {
     }
 
     public void setNumberOfColumns(int columns) {
-        if(columns<1) { columns=1; }
+        if (columns < 1) {
+            columns = 1;
+        }
         mColumns = columns;
         invalidate();
     }
@@ -119,14 +121,14 @@ public class BlocksLayout extends ViewGroup {
             final View child = getChildAt(i);
             if (child.getVisibility() == GONE) continue;
 
-           if (child instanceof BlockView) {
+            if (child instanceof BlockView) {
                 final BlockView blockView = (BlockView) child;
                 final int top = rulerView.getTimeVerticalOffset(blockView.getStartTime());
                 final int bottom = rulerView.getTimeVerticalOffset(blockView.getEndTime());
                 final int left = headerWidth + (blockView.getColumn() * columnWidth);
                 final int right = left + columnWidth;
                 child.layout(left, top, right, bottom);
-           }
+            }
         }
 
         // Align now view to match current time

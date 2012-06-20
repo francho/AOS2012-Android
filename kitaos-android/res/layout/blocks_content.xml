@@ -15,36 +15,36 @@
     limitations under the License.
 -->
 <ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:iosched="http://schemas.android.com/apk/res/org.agilespain.kitaos"
-    android:id="@+id/blocks_scroll"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <view
-        class="com.google.android.apps.iosched.ui.widget.BlocksLayout"
-        android:id="@+id/blocks"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:iosched="http://schemas.android.com/apk/res/org.agilespain.kitaos"
+        android:id="@+id/blocks_scroll"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        iosched:columns="4">
-        <view
-            class="org.agilespain.kitaos.widget.KitaosTimeRulerView"
-            android:id="@id/blocks_ruler"
+        android:layout_height="fill_parent">
+    <view
+            class="com.google.android.apps.iosched.ui.widget.BlocksLayout"
+            android:id="@+id/blocks"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            iosched:headerWidth="46dip"
-            iosched:hourHeight="90dip"
-            iosched:bghorizontalDivider="true"
-            iosched:labelTextSize="15sp"
-            iosched:labelPaddingLeft="5dip"
-            iosched:labelColor="#000000"
-            iosched:dividerColor="#d9d9d9"
-            iosched:startHour="9"
-            iosched:endHour="21" />
+            iosched:columns="4">
+        <view
+                class="org.agilespain.kitaos.widget.KitaosTimeRulerView"
+                android:id="@id/blocks_ruler"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                iosched:headerWidth="46dip"
+                iosched:hourHeight="90dip"
+                iosched:bghorizontalDivider="true"
+                iosched:labelTextSize="15sp"
+                iosched:labelPaddingLeft="5dip"
+                iosched:labelColor="#000000"
+                iosched:dividerColor="#d9d9d9"
+                iosched:startHour="9"
+                iosched:endHour="21"/>
         <!-- -->
         <View
-            android:id="@id/blocks_now"
-            android:background="@drawable/now_bar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+                android:id="@id/blocks_now"
+                android:background="@drawable/now_bar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"/>
     </view>
 </ScrollView>

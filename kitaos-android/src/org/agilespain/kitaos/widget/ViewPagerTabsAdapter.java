@@ -3,8 +3,6 @@
  */
 package org.agilespain.kitaos.widget;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +11,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TabHost;
+
+import java.util.ArrayList;
 
 
 /**
@@ -104,7 +104,7 @@ public class ViewPagerTabsAdapter extends FragmentPagerAdapter
 
     @Override
     public void onPageSelected(int position) {
-       mTabHost.setCurrentTab(position);
+        mTabHost.setCurrentTab(position);
     }
 
     @Override

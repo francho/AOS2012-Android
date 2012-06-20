@@ -16,16 +16,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--<item android:id="@id/menu_item_talks"-->
-          <!--android:icon="@drawable/ic_refresh"-->
-          <!--android:title="@string/menu_talks"-->
-          <!--android:showAsAction="ifRoom|withText" />-->
+    <!--android:icon="@drawable/ic_refresh"-->
+    <!--android:title="@string/menu_talks"-->
+    <!--android:showAsAction="ifRoom|withText" />-->
 
+    <item android:id="@id/menu_item_map"
+          android:icon="@drawable/ic_menu_goto"
+          android:title="@string/menu_map"
+          android:showAsAction="always"/>
     <item android:id="@id/menu_item_info"
           android:icon="@drawable/ic_menu_info_details"
           android:title="@string/menu_info"
-          android:showAsAction="ifRoom|withText" />
+          android:showAsAction="always"/>
     <item android:id="@id/menu_item_reload"
-          android:icon="@drawable/ic_refresh"
+          android:icon="@drawable/ic_menu_refresh"
           android:title="@string/menu_reload"
-          android:showAsAction="ifRoom|withText" />
+          android:showAsAction="always"/>
 </menu>

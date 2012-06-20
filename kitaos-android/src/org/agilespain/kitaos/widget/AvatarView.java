@@ -25,57 +25,62 @@ import android.widget.ImageView;
 import org.agilespain.kitaos.R;
 
 /**
- * 
- * 
  * @author http://francho.org
- * 
  */
 public class AvatarView extends ImageView {
-	/** for logs */
-	private static final String LOGTAG = "AvatarView";
+    /**
+     * for logs
+     */
+    private static final String LOGTAG = "AvatarView";
 
-	/** AsyncTask for load in background */
-	private DownloadAvatarAsyncTask currentTask;
+    /**
+     * AsyncTask for load in background
+     */
+    private DownloadAvatarAsyncTask currentTask;
 
-	/**
-	 * Constructor
-	 * @param context
-	 * @param attrs
-	 * @param defStyle
-	 */
-	public AvatarView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		setImageResource(R.drawable.unknown_photo);
-	}
+    /**
+     * Constructor
+     *
+     * @param context
+     * @param attrs
+     * @param defStyle
+     */
+    public AvatarView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        setImageResource(R.drawable.unknown_photo);
+    }
 
-	/**
-	 * Constructor
-	 * @param context
-	 * @param attrs
-	 */
-	public AvatarView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		setImageResource(R.drawable.unknown_photo);
-	}
+    /**
+     * Constructor
+     *
+     * @param context
+     * @param attrs
+     */
+    public AvatarView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setImageResource(R.drawable.unknown_photo);
+    }
 
-	/**
-	 * Contructor
-	 * @param context
-	 */
-	public AvatarView(Context context) {
-		super(context);
-	}
+    /**
+     * Contructor
+     *
+     * @param context
+     */
+    public AvatarView(Context context) {
+        super(context);
+    }
 
-	/**
-	 * Download and cache a remote image
-	 * @param email
-	 */
-	public void setAvatar(String email) {
+    /**
+     * Download and cache a remote image
+     *
+     * @param email
+     */
+    public void setAvatar(String email) {
         try {
-            String cacheFile = getContext().getApplicationContext().getCacheDir()+email;
-            Bitmap bm = BitmapFactory.decodeFile(cacheFile) ;
+            String cacheFile = getContext().getApplicationContext().getCacheDir() + "/" + email;
+            Bitmap bm = BitmapFactory.decodeFile(cacheFile);
             setImageBitmap(bm);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             setImageResource(R.drawable.unknown_photo);
         }

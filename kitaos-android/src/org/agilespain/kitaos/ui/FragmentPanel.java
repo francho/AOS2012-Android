@@ -25,8 +25,6 @@ import org.agilespain.kitaos.provider.KitaosContract;
 import org.agilespain.kitaos.widget.PostitView;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
@@ -54,7 +52,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
     private static final int DISABLED_BLOCK_ALPHA = 255;
     private final ContentObserver mContentObserver = new BlocksContentObserver();
 
-    class BlocksContentObserver extends  ContentObserver {
+    class BlocksContentObserver extends ContentObserver {
         public BlocksContentObserver() {
             super(null);
         }
@@ -71,7 +69,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what== MSG_UPDATE) {
+            if (msg.what == MSG_UPDATE) {
                 updateTalks();
             }
         }
@@ -90,7 +88,6 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         mScrollView = (ScrollView) v.findViewById(R.id.blocks_scroll);
         mBlocks = (BlocksLayout) v.findViewById(R.id.blocks);
         mNowView = v.findViewById(R.id.blocks_now);
-
 
 
         return v;
@@ -139,7 +136,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         mBlocks.setNumberOfColumns(getNumberOfRooms());
 
 
-        if(!this.isAdded()) {
+        if (!this.isAdded()) {
             mHandler.removeMessages(MSG_UPDATE);
             mHandler.sendEmptyMessageDelayed(MSG_UPDATE, 300);
             return;
@@ -164,12 +161,12 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
 
                 int column = salas.indexOf(sala);
 
-                if(column < 0) {
+                if (column < 0) {
                     salas.add(sala);
                     column = salas.indexOf(sala);
                 }
 
-                boolean containsStarred=false;
+                boolean containsStarred = false;
 
 
                 final PostitView postit = new PostitView(getActivity(), blockId, title, start, end, containsStarred, column);
@@ -218,6 +215,7 @@ public class FragmentPanel extends android.support.v4.app.Fragment {
         getActivity().unregisterReceiver(mReceiver);
         getActivity().getContentResolver().unregisterContentObserver(mContentObserver);
     }
+
     /**
      * {@inheritDoc}
      */

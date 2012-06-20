@@ -27,7 +27,7 @@ import com.google.android.apps.iosched.util.ParserUtils;
  * Contract class for interacting with {@link ScheduleProvider}. Unless
  * otherwise noted, all time-based fields are milliseconds since epoch and can
  * be compared against {@link System#currentTimeMillis()}.
- * <p>
+ * <p/>
  * The backing {@link ContentProvider} assumes that {@link android.net.Uri} are generated
  * using stronger {@link String} identifiers, instead of {@code int}
  * {@link android.provider.BaseColumns#_ID} values, which are prone to shuffle during sync.
@@ -47,104 +47,180 @@ public class ScheduleContract {
     public static final long UPDATED_UNKNOWN = -1;
 
     public interface SyncColumns {
-        /** Last time this entry was updated or synchronized. */
+        /**
+         * Last time this entry was updated or synchronized.
+         */
         String UPDATED = "updated";
     }
 
     interface BlocksColumns {
-        /** Unique string identifying this block of time. */
+        /**
+         * Unique string identifying this block of time.
+         */
         String BLOCK_ID = "block_id";
-        /** Title describing this block of time. */
+        /**
+         * Title describing this block of time.
+         */
         String BLOCK_TITLE = "block_title";
-        /** Time when this block starts. */
+        /**
+         * Time when this block starts.
+         */
         String BLOCK_START = "block_start";
-        /** Time when this block ends. */
+        /**
+         * Time when this block ends.
+         */
         String BLOCK_END = "block_end";
-        /** Type describing this block. */
+        /**
+         * Type describing this block.
+         */
         String BLOCK_TYPE = "block_type";
     }
 
     interface TracksColumns {
-        /** Unique string identifying this track. */
+        /**
+         * Unique string identifying this track.
+         */
         String TRACK_ID = "track_id";
-        /** Name describing this track. */
+        /**
+         * Name describing this track.
+         */
         String TRACK_NAME = "track_name";
-        /** Color used to identify this track, in {@link android.graphics.Color#argb} format. */
+        /**
+         * Color used to identify this track, in {@link android.graphics.Color#argb} format.
+         */
         String TRACK_COLOR = "track_color";
-        /** Body of text explaining this track in detail. */
+        /**
+         * Body of text explaining this track in detail.
+         */
         String TRACK_ABSTRACT = "track_abstract";
     }
 
     interface RoomsColumns {
-        /** Unique string identifying this room. */
+        /**
+         * Unique string identifying this room.
+         */
         String ROOM_ID = "room_id";
-        /** Name describing this room. */
+        /**
+         * Name describing this room.
+         */
         String ROOM_NAME = "room_name";
-        /** Building floor this room exists on. */
+        /**
+         * Building floor this room exists on.
+         */
         String ROOM_FLOOR = "room_floor";
     }
 
     interface SessionsColumns {
-        /** Unique string identifying this session. */
+        /**
+         * Unique string identifying this session.
+         */
         String SESSION_ID = "session_id";
-        /** Type of session, such as difficulty level. */
+        /**
+         * Type of session, such as difficulty level.
+         */
         String TYPE = "type";
-        /** Title describing this track. */
+        /**
+         * Title describing this track.
+         */
         String TITLE = "title";
-        /** Body of text explaining this session in detail. */
+        /**
+         * Body of text explaining this session in detail.
+         */
         String ABSTRACT = "abstract";
-        /** Requirements that attendees should meet. */
+        /**
+         * Requirements that attendees should meet.
+         */
         String REQUIREMENTS = "requirements";
-        /** User-specific flag indicating starred status. */
+        /**
+         * User-specific flag indicating starred status.
+         */
         String STARRED = "starred";
-        /** Link to Moderator for this session. */
+        /**
+         * Link to Moderator for this session.
+         */
         String MODERATOR_URL = "moderator_url";
-        /** Link to Wave for this session. */
+        /**
+         * Link to Wave for this session.
+         */
         String WAVE_URL = "wave_url";
-        /** Additional keywords that describe this session. */
+        /**
+         * Additional keywords that describe this session.
+         */
         String KEYWORDS = "keywords";
-        /** Hashtag used to identify this session in social media. */
+        /**
+         * Hashtag used to identify this session in social media.
+         */
         String HASHTAG = "hashtag";
 
         // TODO: moderator, wave, other online links
     }
 
     interface SpeakersColumns {
-        /** Unique string identifying this speaker. */
+        /**
+         * Unique string identifying this speaker.
+         */
         String SPEAKER_ID = "speaker_id";
-        /** Name of this speaker. */
+        /**
+         * Name of this speaker.
+         */
         String SPEAKER_NAME = "speaker_name";
-        /** Company this speaker works for. */
+        /**
+         * Company this speaker works for.
+         */
         String SPEAKER_COMPANY = "speaker_company";
-        /** Body of text describing this speaker in detail. */
+        /**
+         * Body of text describing this speaker in detail.
+         */
         String SPEAKER_ABSTRACT = "speaker_abstract";
     }
 
     interface VendorsColumns {
-        /** Unique string identifying this vendor. */
+        /**
+         * Unique string identifying this vendor.
+         */
         String VENDOR_ID = "vendor_id";
-        /** Name of this vendor. */
+        /**
+         * Name of this vendor.
+         */
         String NAME = "name";
-        /** Location or city this vendor is based in. */
+        /**
+         * Location or city this vendor is based in.
+         */
         String LOCATION = "location";
-        /** Body of text describing this vendor. */
+        /**
+         * Body of text describing this vendor.
+         */
         String DESC = "desc";
-        /** Link to vendor online. */
+        /**
+         * Link to vendor online.
+         */
         String URL = "url";
-        /** Body of text describing the product of this vendor. */
+        /**
+         * Body of text describing the product of this vendor.
+         */
         String PRODUCT_DESC = "product_desc";
-        /** Link to vendor logo. */
+        /**
+         * Link to vendor logo.
+         */
         String LOGO_URL = "logo_url";
-        /** {@link #LOGO_URL} stored as local blob, when available. */
+        /**
+         * {@link #LOGO_URL} stored as local blob, when available.
+         */
         String LOGO = "logo";
-        /** User-specific flag indicating starred status. */
+        /**
+         * User-specific flag indicating starred status.
+         */
         String STARRED = "starred";
     }
 
     interface NotesColumns {
-        /** Time this note was created. */
+        /**
+         * Time this note was created.
+         */
         String NOTE_TIME = "note_time";
-        /** User-generated content of note. */
+        /**
+         * User-generated content of note.
+         */
         String NOTE_CONTENT = "note_content";
     }
 
@@ -179,7 +255,9 @@ public class ScheduleContract {
         public static final String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.iosched.block";
 
-        /** Count of {@link Sessions} inside given block. */
+        /**
+         * Count of {@link Sessions} inside given block.
+         */
         public static final String SESSIONS_COUNT = "sessions_count";
 
         /**
@@ -188,11 +266,15 @@ public class ScheduleContract {
          */
         public static final String CONTAINS_STARRED = "contains_starred";
 
-        /** Default "ORDER BY" clause. */
+        /**
+         * Default "ORDER BY" clause.
+         */
         public static final String DEFAULT_SORT = BlocksColumns.BLOCK_START + " ASC, "
                 + BlocksColumns.BLOCK_END + " ASC";
 
-        /** Build {@link android.net.Uri} for requested {@link #BLOCK_ID}. */
+        /**
+         * Build {@link android.net.Uri} for requested {@link #BLOCK_ID}.
+         */
         public static Uri buildBlockUri(String blockId) {
             return CONTENT_URI.buildUpon().appendPath(blockId).build();
         }
@@ -214,7 +296,9 @@ public class ScheduleContract {
                     String.valueOf(startTime)).appendPath(String.valueOf(endTime)).build();
         }
 
-        /** Read {@link #BLOCK_ID} from {@link Blocks} {@link android.net.Uri}. */
+        /**
+         * Read {@link #BLOCK_ID} from {@link Blocks} {@link android.net.Uri}.
+         */
         public static String getBlockId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -243,15 +327,23 @@ public class ScheduleContract {
         public static final String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.iosched.track";
 
-        /** Count of {@link Sessions} inside given track. */
+        /**
+         * Count of {@link Sessions} inside given track.
+         */
         public static final String SESSIONS_COUNT = "sessions_count";
-        /** Count of {@link Vendors} inside given track. */
+        /**
+         * Count of {@link Vendors} inside given track.
+         */
         public static final String VENDORS_COUNT = "vendors_count";
 
-        /** Default "ORDER BY" clause. */
+        /**
+         * Default "ORDER BY" clause.
+         */
         public static final String DEFAULT_SORT = TracksColumns.TRACK_NAME + " ASC";
 
-        /** Build {@link android.net.Uri} for requested {@link #TRACK_ID}. */
+        /**
+         * Build {@link android.net.Uri} for requested {@link #TRACK_ID}.
+         */
         public static Uri buildTrackUri(String trackId) {
             return CONTENT_URI.buildUpon().appendPath(trackId).build();
         }
@@ -272,7 +364,9 @@ public class ScheduleContract {
             return CONTENT_URI.buildUpon().appendPath(trackId).appendPath(PATH_VENDORS).build();
         }
 
-        /** Read {@link #TRACK_ID} from {@link Tracks} {@link android.net.Uri}. */
+        /**
+         * Read {@link #TRACK_ID} from {@link Tracks} {@link android.net.Uri}.
+         */
         public static String getTrackId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -298,11 +392,15 @@ public class ScheduleContract {
         public static final String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.iosched.room";
 
-        /** Default "ORDER BY" clause. */
+        /**
+         * Default "ORDER BY" clause.
+         */
         public static final String DEFAULT_SORT = RoomsColumns.ROOM_FLOOR + " ASC, "
                 + RoomsColumns.ROOM_NAME + " COLLATE NOCASE ASC";
 
-        /** Build {@link android.net.Uri} for requested {@link #ROOM_ID}. */
+        /**
+         * Build {@link android.net.Uri} for requested {@link #ROOM_ID}.
+         */
         public static Uri buildRoomUri(String roomId) {
             return CONTENT_URI.buildUpon().appendPath(roomId).build();
         }
@@ -315,7 +413,9 @@ public class ScheduleContract {
             return CONTENT_URI.buildUpon().appendPath(roomId).appendPath(PATH_SESSIONS).build();
         }
 
-        /** Read {@link #ROOM_ID} from {@link Rooms} {@link android.net.Uri}. */
+        /**
+         * Read {@link #ROOM_ID} from {@link Rooms} {@link android.net.Uri}.
+         */
         public static String getRoomId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -351,11 +451,15 @@ public class ScheduleContract {
         public static final String SEARCH_SNIPPET = "search_snippet";
 
         // TODO: shortcut primary track to offer sub-sorting here
-        /** Default "ORDER BY" clause. */
+        /**
+         * Default "ORDER BY" clause.
+         */
         public static final String DEFAULT_SORT = BlocksColumns.BLOCK_START + " ASC,"
                 + SessionsColumns.TITLE + " COLLATE NOCASE ASC";
 
-        /** Build {@link android.net.Uri} for requested {@link #SESSION_ID}. */
+        /**
+         * Build {@link android.net.Uri} for requested {@link #SESSION_ID}.
+         */
         public static Uri buildSessionUri(String sessionId) {
             return CONTENT_URI.buildUpon().appendPath(sessionId).build();
         }
@@ -397,7 +501,9 @@ public class ScheduleContract {
             return PATH_SEARCH.equals(uri.getPathSegments().get(1));
         }
 
-        /** Read {@link #SESSION_ID} from {@link Sessions} {@link android.net.Uri}. */
+        /**
+         * Read {@link #SESSION_ID} from {@link Sessions} {@link android.net.Uri}.
+         */
         public static String getSessionId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -427,11 +533,15 @@ public class ScheduleContract {
         public static final String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.iosched.speaker";
 
-        /** Default "ORDER BY" clause. */
+        /**
+         * Default "ORDER BY" clause.
+         */
         public static final String DEFAULT_SORT = SpeakersColumns.SPEAKER_NAME
                 + " COLLATE NOCASE ASC";
 
-        /** Build {@link android.net.Uri} for requested {@link #SPEAKER_ID}. */
+        /**
+         * Build {@link android.net.Uri} for requested {@link #SPEAKER_ID}.
+         */
         public static Uri buildSpeakerUri(String speakerId) {
             return CONTENT_URI.buildUpon().appendPath(speakerId).build();
         }
@@ -444,7 +554,9 @@ public class ScheduleContract {
             return CONTENT_URI.buildUpon().appendPath(speakerId).appendPath(PATH_SESSIONS).build();
         }
 
-        /** Read {@link #SPEAKER_ID} from {@link Speakers} {@link android.net.Uri}. */
+        /**
+         * Read {@link #SPEAKER_ID} from {@link Speakers} {@link android.net.Uri}.
+         */
         public static String getSpeakerId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -473,15 +585,21 @@ public class ScheduleContract {
         public static final String CONTENT_ITEM_TYPE =
                 "vnd.android.cursor.item/vnd.iosched.vendor";
 
-        /** {@link Tracks#TRACK_ID} that this vendor belongs to. */
+        /**
+         * {@link Tracks#TRACK_ID} that this vendor belongs to.
+         */
         public static final String TRACK_ID = "track_id";
 
         public static final String SEARCH_SNIPPET = "search_snippet";
 
-        /** Default "ORDER BY" clause. */
+        /**
+         * Default "ORDER BY" clause.
+         */
         public static final String DEFAULT_SORT = VendorsColumns.NAME + " COLLATE NOCASE ASC";
 
-        /** Build {@link android.net.Uri} for requested {@link #VENDOR_ID}. */
+        /**
+         * Build {@link android.net.Uri} for requested {@link #VENDOR_ID}.
+         */
         public static Uri buildVendorUri(String vendorId) {
             return CONTENT_URI.buildUpon().appendPath(vendorId).build();
         }
@@ -494,7 +612,9 @@ public class ScheduleContract {
             return PATH_SEARCH.equals(uri.getPathSegments().get(1));
         }
 
-        /** Read {@link #VENDOR_ID} from {@link Vendors} {@link android.net.Uri}. */
+        /**
+         * Read {@link #VENDOR_ID} from {@link Vendors} {@link android.net.Uri}.
+         */
         public static String getVendorId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -521,10 +641,14 @@ public class ScheduleContract {
         public static final Uri CONTENT_EXPORT_URI =
                 CONTENT_URI.buildUpon().appendPath(PATH_EXPORT).build();
 
-        /** {@link Sessions#SESSION_ID} that this note references. */
+        /**
+         * {@link Sessions#SESSION_ID} that this note references.
+         */
         public static final String SESSION_ID = "session_id";
 
-        /** Default "ORDER BY" clause. */
+        /**
+         * Default "ORDER BY" clause.
+         */
         public static final String DEFAULT_SORT = NotesColumns.NOTE_TIME + " DESC";
 
         public static final String CONTENT_TYPE =

@@ -16,21 +16,23 @@
 
 package org.agilespain.kitaos.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.GZIPInputStream;
-
+import android.app.IntentService;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.os.ResultReceiver;
+import android.text.format.DateUtils;
+import android.util.Log;
 import org.agilespain.kitaos.R;
 import org.agilespain.kitaos.provider.KitaosContract;
 import org.agilespain.kitaos.widget.DownloadAvatarAsyncTask;
-import org.apache.http.Header;
-import org.apache.http.HeaderElement;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -40,18 +42,9 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HttpContext;
 
-import android.app.IntentService;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
-import android.os.ResultReceiver;
-import android.text.format.DateUtils;
-import android.util.Log;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Background {@link android.app.Service} that synchronizes data living in
@@ -70,7 +63,9 @@ public class SyncService extends IntentService {
 
     private static final int SECOND_IN_MILLIS = (int) DateUtils.SECOND_IN_MILLIS;
 
-    /** Root worksheet feed for online data source */
+    /**
+     * Root worksheet feed for online data source
+     */
 
 
     private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
@@ -93,7 +88,7 @@ public class SyncService extends IntentService {
         final HttpClient httpClient = getHttpClient(this);
         final ContentResolver resolver = getContentResolver();
 
-       // mLocalExecutor = new LocalExecutor(getResources(), resolver);
+        // mLocalExecutor = new LocalExecutor(getResources(), resolver);
         mRemoteExecutor = new RemoteExecutor(httpClient, resolver);
     }
 
@@ -109,7 +104,7 @@ public class SyncService extends IntentService {
                 Context.MODE_PRIVATE);
         final int localVersion = prefs.getInt(Prefs.LOCAL_VERSION, VERSION_NONE);
 
-        final boolean force = intent.getBooleanExtra(EXTRA_FORCE_RELOAD,false);
+        final boolean force = intent.getBooleanExtra(EXTRA_FORCE_RELOAD, false);
 
         try {
             // Bulk of sync work, performed by executing several fetches from
@@ -153,11 +148,11 @@ public class SyncService extends IntentService {
 
     private void downloadAvatars() {
         String[] projection = new String[]{
-            "DISTINCT " + KitaosContract.Talks.SPEAKER_EMAIL
+                "DISTINCT " + KitaosContract.Talks.SPEAKER_EMAIL
         };
-        Cursor avatars = getContentResolver().query(KitaosContract.Talks.uri(),projection, null, null, null);
+        Cursor avatars = getContentResolver().query(KitaosContract.Talks.uri(), projection, null, null, null);
 
-        while(avatars.moveToNext()) {
+        while (avatars.moveToNext()) {
             String email = avatars.getString(0);
             (new DownloadAvatarAsyncTask(this)).execute(email);
         }

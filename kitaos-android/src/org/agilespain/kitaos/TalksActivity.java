@@ -22,7 +22,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.widget.TabHost;
 import android.widget.TextView;
-
 import org.agilespain.kitaos.ui.FragmentPanel;
 import org.agilespain.kitaos.ui.FragmentTalks;
 import org.agilespain.kitaos.widget.ViewPagerTabsAdapter;
@@ -39,7 +38,6 @@ public class TalksActivity extends KitaosBaseActivity {
 
         setupTabs();
     }
-
 
 
     private void setupTabs() {

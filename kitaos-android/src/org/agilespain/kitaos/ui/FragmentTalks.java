@@ -22,7 +22,7 @@ import org.agilespain.kitaos.widget.TypefaceUtils;
  */
 public class FragmentTalks extends android.support.v4.app.Fragment implements TalksByHourTreeAdapter.ViewBinder, ExpandableListView.OnChildClickListener {
 
-    private TalksByHourTreeAdapter mAdapter=null;
+    private TalksByHourTreeAdapter mAdapter = null;
     private ExpandableListView mTalksList;
 
     /**
@@ -59,7 +59,7 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Ta
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(mTalksList==null) {
+        if (mTalksList == null) {
             return;
         }
         if (mAdapter == null) {
@@ -95,7 +95,7 @@ public class FragmentTalks extends android.support.v4.app.Fragment implements Ta
         Context context = getActivity();
 
         Cursor cursor = context.getContentResolver().query(KitaosContract.Talks.hoursUri(),
-                new String[] {KitaosContract.Talks.START_DATE, KitaosContract.Talks._ID},
+                new String[]{KitaosContract.Talks.START_DATE, KitaosContract.Talks._ID},
                 null,
                 null,
                 KitaosContract.Talks.START_DATE + " ASC");

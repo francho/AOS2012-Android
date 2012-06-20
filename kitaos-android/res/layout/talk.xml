@@ -39,9 +39,11 @@
     <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
 
         <org.agilespain.kitaos.widget.AvatarView android:id="@id/talk_speaker_avatar"
-                                                 android:layout_width="wrap_content"
-                                                 android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+                                                 android:layout_width="72dp"
+                                                 android:layout_height="72dp"
+                                                 android:layout_marginRight="5dp"
+
+                                                 android:layout_alignParentLeft="true"
                 />
 
 
@@ -69,9 +71,8 @@
                   android:textColor="@color/text_alt"
                   android:gravity="right"
 
-                  android:layout_toRightOf="@id/talk_speaker_twitter"
-                  android:layout_alignTop="@id/talk_speaker_twitter"
-                  android:layout_alignParentRight="true"
+                  android:layout_alignLeft="@id/talk_speaker"
+                  android:layout_below="@id/talk_speaker_twitter"
                 />
 
 

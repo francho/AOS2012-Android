@@ -20,7 +20,8 @@ package com.google.android.apps.iosched.util;
  * Math utility functions.
  */
 final class MathUtils {
-    private MathUtils() {}
+    private MathUtils() {
+    }
 
     /**
      * Equivalent to Math.max(low, Math.min(high, amount));

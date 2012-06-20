@@ -15,22 +15,15 @@
  */
 package org.agilespain.kitaos;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
-import android.util.AttributeSet;
 import android.view.View;
-import android.widget.TabHost;
 import android.widget.TextView;
 import org.agilespain.kitaos.provider.KitaosContract;
-import org.agilespain.kitaos.ui.FragmentPanel;
-import org.agilespain.kitaos.ui.FragmentTalks;
 import org.agilespain.kitaos.widget.AvatarView;
-import org.agilespain.kitaos.widget.ViewPagerTabsAdapter;
 
 public class TalkActivity extends KitaosBaseActivity implements View.OnClickListener {
     private static final String TAG_PANEL = "panel";
@@ -78,7 +71,7 @@ public class TalkActivity extends KitaosBaseActivity implements View.OnClickList
         };
 
         Cursor talkInfo = getContentResolver().query(uri, projection, null, null, null);
-        if(talkInfo.moveToFirst()) {
+        if (talkInfo.moveToFirst()) {
             mTitle.setText(talkInfo.getString(0));
             mRoom.setText(talkInfo.getString(1));
             mSpeaker.setText(talkInfo.getString(2));
@@ -94,8 +87,8 @@ public class TalkActivity extends KitaosBaseActivity implements View.OnClickList
             mSpeakerAvatar.setAvatar(email);
 
             String twitter = talkInfo.getString(6);
-            if(!twitter.startsWith("@")) {
-                twitter="@"+twitter;
+            if (!twitter.startsWith("@")) {
+                twitter = "@" + twitter;
             }
             mSpeakerTwitter.setText(twitter);
             mSpeakerTwitter.setOnClickListener(this);
@@ -107,24 +100,24 @@ public class TalkActivity extends KitaosBaseActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        Intent intent=null;
-        switch(view.getId()) {
+        Intent intent = null;
+        switch (view.getId()) {
             case R.id.talk_speaker_email:
-                String email = ""+((TextView) view).getText();
+                String email = "" + ((TextView) view).getText();
                 intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[] { email});
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
                 break;
             case R.id.talk_speaker_twitter:
                 String twitter = (String) ((TextView) view).getText();
-                twitter.replaceFirst("@","");
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/#!/"+twitter));
+                twitter.replaceFirst("@", "");
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/#!/" + twitter));
                 break;
             default:
                 return;
         }
 
-        if(intent != null) {
+        if (intent != null) {
             startActivity(intent);
         }
     }

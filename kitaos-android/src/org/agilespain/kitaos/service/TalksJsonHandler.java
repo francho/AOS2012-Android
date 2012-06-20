@@ -1,4 +1,3 @@
-
 package org.agilespain.kitaos.service;
 
 import android.content.ContentProviderOperation;
@@ -23,37 +22,37 @@ public class TalksJsonHandler extends JsonHandler {
 
     private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
-	public TalksJsonHandler() {
-		super();
-	}
+    public TalksJsonHandler() {
+        super();
+    }
 
-	// private static final String TAG = "TalksJsonHandler";
+    // private static final String TAG = "TalksJsonHandler";
 
-    
-	/* (non-Javadoc)
-	 * Parser a json like:
-	 *
-	  "23001" : { "date" : "2012-06-23",
-      "description" : "¿Es libre o no?",
-      "duration" : 1,
-      "room" : { "name" : "sala2" },
-      "session" : 1,
-      "speaker" : { "city" : "Pamplona",
-          "computers_needed" : true,
-          "email" : "richard@gnu.org",
-          "first_name" : "Richard",
-          "last_name" : "Stallman",
-          "speaker" : true,
-          "twitter_id" : "GNUplusLINUX"
-        },
-      "time" : "9:30",
-      "title" : "TDD"
-    },
-     * }
-     */
-	@Override
-	public ArrayList<ContentProviderOperation> parse(String jsonString,
-			ContentResolver resolver) throws JSONException, IOException {
+
+    /* (non-Javadoc)
+    * Parser a json like:
+    *
+     "23001" : { "date" : "2012-06-23",
+     "description" : "¿Es libre o no?",
+     "duration" : 1,
+     "room" : { "name" : "sala2" },
+     "session" : 1,
+     "speaker" : { "city" : "Pamplona",
+         "computers_needed" : true,
+         "email" : "richard@gnu.org",
+         "first_name" : "Richard",
+         "last_name" : "Stallman",
+         "speaker" : true,
+         "twitter_id" : "GNUplusLINUX"
+       },
+     "time" : "9:30",
+     "title" : "TDD"
+   },
+    * }
+    */
+    @Override
+    public ArrayList<ContentProviderOperation> parse(String jsonString,
+                                                     ContentResolver resolver) throws JSONException, IOException {
         final ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
 
         Builder builder = ContentProviderOperation.newDelete(Talks.uri());
@@ -62,7 +61,7 @@ public class TalksJsonHandler extends JsonHandler {
         final JSONObject jsonResponse = new JSONObject(jsonString);
 
         Iterator it = jsonResponse.keys();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             String key = (String) it.next();
 
             int id = Integer.parseInt(key);
@@ -73,13 +72,13 @@ public class TalksJsonHandler extends JsonHandler {
             builder.withValue(Talks._ID, id);
             builder.withValue(Talks.TITLE, curTalk.getString(TalksJson.TITLE).trim());
 
-            if(curTalk.has(Talks.DESCRIPTION)) {
+            if (curTalk.has(Talks.DESCRIPTION)) {
                 builder.withValue(Talks.DESCRIPTION, curTalk.getString(TalksJson.DESCRIPTION).trim());
             }
 
             builder.withValue(Talks.ROOM, curTalk.getJSONObject(TalksJson.ROOM).getString(TalksJson.NAME).trim());
 
-            String date = curTalk.getString(TalksJson.DATE).trim() + " " + normalizeTime(curTalk.getString(TalksJson.HOUR)) ;
+            String date = curTalk.getString(TalksJson.DATE).trim() + " " + normalizeTime(curTalk.getString(TalksJson.HOUR));
 
             // Dates to millis
             long millisStart = getMillis(date);
@@ -91,7 +90,7 @@ public class TalksJsonHandler extends JsonHandler {
 
             JSONObject jsonSpeaker = curTalk.getJSONObject(TalksJson.SPEAKER);
 
-            String name =  jsonSpeaker.getString(TalksJson.SPEAKER_FIRST_NAME).trim() + " "
+            String name = jsonSpeaker.getString(TalksJson.SPEAKER_FIRST_NAME).trim() + " "
                     + jsonSpeaker.getString(TalksJson.SPEAKER_LAST_NAME).trim();
 
             builder.withValue(Talks.SPEAKER, name);
@@ -103,11 +102,11 @@ public class TalksJsonHandler extends JsonHandler {
         return batch;
     }
 
-    
+
     public long getMillis(String dateString) {
         try {
             Date date = df.parse(dateString);
-            return date.getTime() ;
+            return date.getTime();
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 
@@ -118,10 +117,10 @@ public class TalksJsonHandler extends JsonHandler {
     long getEndMillis(long millisStart, int duration) {
         return (duration * 60 * 60 * 1000) + millisStart;
     }
-    
+
     private String normalizeTime(String time) {
         int hour, min;
-        if(time.contains(":")) {
+        if (time.contains(":")) {
             String[] parts = time.trim().split(":");
             hour = Integer.parseInt(parts[0]);
             min = Integer.parseInt(parts[1]);
@@ -134,8 +133,8 @@ public class TalksJsonHandler extends JsonHandler {
 
 
     interface TalksJson {
-    	String DATE = "date";
-    	String DURATION = "duration";
+        String DATE = "date";
+        String DURATION = "duration";
         String HOUR = "time";
         String ROOM = "room";
         String NAME = "name";

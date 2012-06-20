@@ -3,7 +3,9 @@ package org.agilespain.kitaos;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -38,7 +40,7 @@ class KitaosBaseActivity extends SherlockFragmentActivity {
     }
 
     void setKitaosProgressbarVisible(boolean visible) {
-        if(mItemReload==null) {
+        if (mItemReload == null) {
             return;
         }
 
@@ -60,15 +62,15 @@ class KitaosBaseActivity extends SherlockFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         getSupportMenuInflater().inflate(R.menu.main_menu, menu);
-        
+
         mItemReload = menu.findItem(R.id.menu_item_reload);
-        
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 goHome();
                 return true;
@@ -77,6 +79,9 @@ class KitaosBaseActivity extends SherlockFragmentActivity {
                 return true;
             case R.id.menu_item_info:
                 showInfo();
+                return true;
+            case R.id.menu_item_map:
+                showMap();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -105,4 +110,10 @@ class KitaosBaseActivity extends SherlockFragmentActivity {
         startActivity(intent);
     }
 
+    void showMap() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        String url = "http://kit-aos.appspot.com/static/img/planoAOS2012.png";
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+    }
 }

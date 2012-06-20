@@ -16,12 +16,11 @@
 
 package org.agilespain.kitaos.service;
 
-import org.json.JSONException;
-
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
  * a set of {@link android.content.ContentProviderOperation}. It catches recoverable network
  * exceptions and rethrows them as {@link org.agilespain.kitaos.service.HandlerException}. Any local
  * {@link android.content.ContentProvider} exceptions are considered unrecoverable.
- * <p>
+ * <p/>
  * This class is only designed to handle simple one-way synchronization.
  */
 public abstract class JsonHandler {
@@ -59,7 +58,7 @@ public abstract class JsonHandler {
         } catch (HandlerException e) {
             throw e;
         } catch (JSONException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             throw new HandlerException("Problem parsing JSON response", e);
         } catch (IOException e) {
             throw new HandlerException("Problem reading response", e);
@@ -81,7 +80,7 @@ public abstract class JsonHandler {
      * {@link android.content.ContentProvider} into sync with the parsed data.
      */
     public abstract ArrayList<ContentProviderOperation> parse(String jsonString,
-            ContentResolver resolver) throws JSONException, IOException;
+                                                              ContentResolver resolver) throws JSONException, IOException;
 
 
 }
